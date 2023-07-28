@@ -6,17 +6,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LiquorStoreFinalProject.Controllers
 {
-    public class ProductsController : Controller
+    public class Products : Controller
     {
         private readonly AppDbContext _context;
 
-        public ProductsController(AppDbContext context)
+        public Products(AppDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProductDetail(int? id)
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var products = _context.Products.Select(p => new GetAllProductVM
+            {
+                Id = p.Id,
+                ProductImageId = p.ProductImageId,
+                CategoryName = p.Category.Name,
+                Name = p.Name,
+                Price = p.Price,
+            }).ToList();
+
+            return View(products);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductDetails(int? id)
         {
             if (id is null) return BadRequest();
 
@@ -29,11 +44,9 @@ namespace LiquorStoreFinalProject.Controllers
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                ProductImage = product.ProductImage,
-                CategoryName = product.Category.Name,
-                ActualPrice = product.Price,
-                DiscountPrice = product.Price - 10,
-                Percent=10,
+                ProductImageId = product.ProductImageId,
+                CategoryId = product.CategoryId,
+                Price = product.Price,
             };
 
             return View(productDetailVM);

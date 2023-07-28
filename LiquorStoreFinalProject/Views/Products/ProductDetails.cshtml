@@ -56,7 +56,7 @@
                     <div class="dropdown-item d-flex align-items-start" href="#">
                         <div class="img" style="background-image: url(images/prod-1.jpg);"></div>
                         <div class="text pl-3">
-                            <h4>Bacardi 151</h4>
+                            <h4>@Model.Name</h4>
                             <p class="mb-0"><a href="#" class="price">$25.99</a><span class="quantity ml-3">Quantity: 01</span></p>
                         </div>
                     </div>
@@ -146,8 +146,8 @@
                             <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
                         </p>
                     </div>
-                    <p class="price"><span>$120.00</span></p>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                    <p class="price"><span>$@Model.Price</span></p>
+                    <p>@Model.Description</p>
                     <p>
                         On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.
                     </p>
@@ -441,7 +441,7 @@
                 // Stop acting like a button
                 e.preventDefault();
                 // Get the field name
-                var quantity = pars eInt($('#quantity').val());
+                var quantity = pars     eInt($('#quantity').val());
 
                 // If is not undefined
 
