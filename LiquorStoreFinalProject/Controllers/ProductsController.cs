@@ -21,7 +21,7 @@ namespace LiquorStoreFinalProject.Controllers
         {
 
             var categories = await _context.Categories.ToListAsync();
-            ViewBag.Categories=categories;
+            ViewBag.Categories = categories;
             var products = await _context.Products.Select(p => new GetAllProductVM
             {
                 Id = p.Id,
