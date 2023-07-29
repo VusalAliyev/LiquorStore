@@ -1,4 +1,6 @@
-﻿namespace LiquorStoreFinalProject.ViewModels
+﻿using LiquorStoreFinalProject.Models;
+
+namespace LiquorStoreFinalProject.ViewModels
 {
     public class GetAllProductVM
     {
@@ -7,5 +9,6 @@
         public string CategoryName { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public List<Category> Categories { get; set; }
     }
 }

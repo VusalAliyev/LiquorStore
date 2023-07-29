@@ -18,14 +18,17 @@ namespace LiquorStoreFinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
-            var products = _context.Products.Select(p => new GetAllProductVM
+
+            var categories = await _context.Categories.ToListAsync();
+            var products = await _context.Products.Select(p => new GetAllProductVM
             {
                 Id = p.Id,
                 ProductImageId = p.ProductImageId,
                 CategoryName = p.Category.Name,
                 Name = p.Name,
                 Price = p.Price,
-            }).ToList();
+                Categories = categories
+            }).ToListAsync();
 
             return View(products);
         }
