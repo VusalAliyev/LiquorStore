@@ -1,11 +1,13 @@
 using LiquorStoreFinalProject.Data;
+using LiquorStoreFinalProject.Services;
+using LiquorStoreFinalProject.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

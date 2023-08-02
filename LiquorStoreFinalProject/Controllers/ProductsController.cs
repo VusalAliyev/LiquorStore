@@ -1,5 +1,6 @@
 ﻿using LiquorStoreFinalProject.Data;
 using LiquorStoreFinalProject.Models;
+using LiquorStoreFinalProject.Services.Interfaces;
 using LiquorStoreFinalProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -10,29 +11,25 @@ namespace LiquorStoreFinalProject.Controllers
     public class Products : Controller
     {
         private readonly AppDbContext _context;
-
-        public Products(AppDbContext context)
+        private readonly IProductService _productService;
+        public Products(AppDbContext context, IProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts(int page=1)
         {
-
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
-            var products = await _context.Products.Select(p => new GetAllProductVM
-            {
-                Id = p.Id,
-                ProductImageId = p.ProductImageId,
-                CategoryName = p.Category.Name,
-                Name = p.Name,
-                Price = p.Price,
-            }).ToListAsync();
 
-            return View(products);
+            var data = await _productService.GetPaginatedDatasAsync(page);
+            return View(data);
         }
+
+
+        
 
         [HttpGet]
         public async Task<IActionResult> ProductDetails(int? id)
@@ -48,7 +45,7 @@ namespace LiquorStoreFinalProject.Controllers
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                ProductImageId = product.ProductImageId,
+                ImageURL = product.ImageURL,
                 CategoryId = product.CategoryId,
                 Price = product.Price,
             };
@@ -66,7 +63,7 @@ namespace LiquorStoreFinalProject.Controllers
                 .Select(p => new GetAllProductVM
                 {
                     Id = p.Id,
-                    ProductImageId = p.ProductImageId,
+                    ImageURL = p.ImageURL,
                     CategoryName = p.Category.Name,
                     Name = p.Name,
                     Price = p.Price

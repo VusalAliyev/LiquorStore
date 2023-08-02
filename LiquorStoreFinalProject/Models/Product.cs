@@ -9,7 +9,6 @@
         public Category Category { get; set; }
         public int? DiscountId { get; set; }
         public Discount Discount { get; set; }
-        public int ProductImageId { get; set; }
-        public ProductImage ProductImage { get; set; }
+        public string ImageURL { get; set; }
     }
 }
