@@ -19,7 +19,7 @@ namespace LiquorStoreFinalProject.Controllers
         }
         public async Task<IActionResult> BlogDetails(int id)
         {
-            var blog = _context.Blogs.FirstOrDefault(b => b.Id == id);
+            var blog =  _context.Blogs.FirstOrDefault(b => b.Id == id);
             return View(blog);
         }
     }

@@ -2,6 +2,7 @@
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services.Interfaces;
 using LiquorStoreFinalProject.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,12 @@ namespace LiquorStoreFinalProject.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IProductService _productService;
-        public Products(AppDbContext context, IProductService productService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public Products(AppDbContext context, IProductService productService, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _productService = productService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -27,9 +30,6 @@ namespace LiquorStoreFinalProject.Controllers
             var data = await _productService.GetPaginatedDatasAsync(page);
             return View(data);
         }
-
-
-        
 
         [HttpGet]
         public async Task<IActionResult> ProductDetails(int? id)
@@ -73,3 +73,4 @@ namespace LiquorStoreFinalProject.Controllers
         }
     }
 }
+    
