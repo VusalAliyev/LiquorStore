@@ -27,7 +27,7 @@ namespace LiquorStoreFinalProject.Controllers
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
 
-            var data = await _productService.GetPaginatedDatasAsync(page);
+            var data = await _productService.GetPaginatedProductsAsync(page);
             return View(data);
         }
 
@@ -53,21 +53,12 @@ namespace LiquorStoreFinalProject.Controllers
             return View(productDetailVM);
         }
         [HttpGet]
-        public async Task<IActionResult> FilterProductsByCategory(int categoryId)
+        public async Task<IActionResult> FilterProductsByCategory(int categoryId,int page=1)
         {
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
 
-            var filteredProducts = await _context.Products
-                .Where(p => p.CategoryId == categoryId)
-                .Select(p => new GetAllProductVM
-                {
-                    Id = p.Id,
-                    ImageURL = p.ImageURL,
-                    CategoryName = p.Category.Name,
-                    Name = p.Name,
-                    Price = p.Price
-                }).ToListAsync();
+           var filteredProducts= await _productService.GetProdutsByCategory(page, categoryId);
 
             return View("GetAllProducts",filteredProducts);
         }

@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace LiquorStoreFinalProject.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

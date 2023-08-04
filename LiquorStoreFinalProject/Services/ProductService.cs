@@ -17,12 +17,7 @@ namespace LiquorStoreFinalProject.Services
             _context = context;
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<GetPaginatedProductVM> GetPaginatedDatasAsync(int page)
+        public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page)
         {
 
             var pageResults = 3f;
@@ -48,9 +43,30 @@ namespace LiquorStoreFinalProject.Services
 
         }
 
-        Task<IEnumerable<GetAllProductVM>> IProductService.GetAllAsync()
+        public async Task<GetPaginatedProductVM> GetProdutsByCategory(int page,int categoryId)
         {
-            throw new NotImplementedException();
+            var pageResults = 3f;
+            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
+
+            var filteredProducts = await _context.Products
+                .Where(p => p.CategoryId == categoryId)
+                .Select(p => new GetAllProductVM
+            {
+                Id = p.Id,
+                ImageURL = p.ImageURL,
+                CategoryName = p.Category.Name,
+                Name = p.Name,
+                Price = p.Price,
+            }).Skip((page - 1) * (int)pageResults)
+               .Take((int)pageResults)
+               .ToListAsync();
+
+            return new GetPaginatedProductVM
+            {
+                CurrentPage = page,
+                Products = filteredProducts,
+                Pages = (int)pageCount
+            };
         }
     }
 }

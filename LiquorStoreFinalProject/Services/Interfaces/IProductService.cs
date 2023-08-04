@@ -5,7 +5,7 @@ namespace LiquorStoreFinalProject.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<GetAllProductVM>> GetAllAsync();
-        Task<GetPaginatedProductVM> GetPaginatedDatasAsync(int page);
+        Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page);
+        Task<GetPaginatedProductVM> GetProdutsByCategory(int page,int categoryId);
     }
 }
