@@ -1,4 +1,5 @@
-﻿using LiquorStoreFinalProject.Models;
+﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.ViewModels;
 
 namespace LiquorStoreFinalProject.Services.Interfaces
@@ -7,5 +8,8 @@ namespace LiquorStoreFinalProject.Services.Interfaces
     {
         Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page);
         Task<GetPaginatedProductVM> GetProdutsByCategory(int page,int categoryId);
+        Task CreateAsync(CreateProductVM createProductVM);
+        //Task EditAsync(int productId, UpdateProductVM updateProductVM);
+        Task DeleteAsync(int id);
     }
 }

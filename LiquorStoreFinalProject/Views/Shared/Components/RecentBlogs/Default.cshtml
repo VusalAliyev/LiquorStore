@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Blog>
+<ul>
+    @foreach (var blog in Model)
+    {
+        <li>@blog.Description</li>
+    }
+</ul>
