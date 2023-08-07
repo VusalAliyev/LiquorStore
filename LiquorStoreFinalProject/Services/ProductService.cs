@@ -23,7 +23,8 @@ namespace LiquorStoreFinalProject.Services
         {
             var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(createProductVM.Image.FileName);
 
-            var directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "images");
+
+            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","downloaded",uniqueFileName);
 
 
             if (!Directory.Exists(directoryPath))
@@ -43,7 +44,8 @@ namespace LiquorStoreFinalProject.Services
                 Name= createProductVM.Name,
                 CategoryId= 3,
                 Description= createProductVM.Description,
-                DiscountId= createProductVM.DiscountId,
+                Price=createProductVM.Price,
+                DiscountId= 1,
                 ImageURL=filePath,
             };
             _context.Products.Add(product);
@@ -85,7 +87,7 @@ namespace LiquorStoreFinalProject.Services
 
         }
 
-        public async Task<GetPaginatedProductVM> GetProdutsByCategory(int page,int categoryId)
+        public async Task<GetPaginatedProductVM> GetProductsByCategory(int page,int categoryId)
         {
             var pageResults = 3f;
             var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);

@@ -58,7 +58,7 @@ namespace LiquorStoreFinalProject.Controllers
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
 
-           var filteredProducts= await _productService.GetProdutsByCategory(page, categoryId);
+           var filteredProducts= await _productService.GetProductsByCategory(page, categoryId);
 
             return View("GetAllProducts",filteredProducts);
         }
