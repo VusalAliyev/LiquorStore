@@ -15,7 +15,7 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page = 1)
         {
             var products = await _productService.GetPaginatedProductsAsync(page);
             return View(products);
@@ -31,6 +31,24 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         public async Task<IActionResult> CreateProduct(CreateProductVM request)
         {
             await _productService.CreateAsync(request);
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> UpdateProduct()
+        {
+            return View();
+        }
+        [HttpPost("id")]
+        public async Task<IActionResult> UpdateProduct(int id,UpdateProductVM request)
+        {
+            await _productService.UpdateAsync(id,request);
+            return View(nameof(Index));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await _productService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

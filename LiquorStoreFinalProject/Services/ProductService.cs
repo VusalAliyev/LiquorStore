@@ -12,50 +12,52 @@ namespace LiquorStoreFinalProject.Services
     public class ProductService : IProductService
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
         private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10 MB
-        private static readonly string[] AllowedMimeTypes = { "image/jpeg", "image/png"};
-        public ProductService(AppDbContext context)
+        private static readonly string[] AllowedMimeTypes = { "image/jpeg", "image/png" };
+        public ProductService(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task CreateAsync(CreateProductVM createProductVM)
         {
-            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(createProductVM.Image.FileName);
+            var FileUniqueName = createProductVM.Image.FileName;
 
-
-            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","downloaded",uniqueFileName);
-
-
-            if (!Directory.Exists(directoryPath))
+            var folderPath = Path.Combine(_env.WebRootPath, "photos");
+            var FullPath = Path.Combine(folderPath, FileUniqueName);
+            string rootFolder = @"wwwroot\";
+            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+            if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(folderPath);
             }
 
-            var filePath = Path.Combine(directoryPath, uniqueFileName);
+            Directory.CreateDirectory(folderPath);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
             {
-                await createProductVM.Image.CopyToAsync(fileStream);
+                createProductVM.Image.CopyTo(fs);
             }
 
             var product = new Product
             {
-                Name= createProductVM.Name,
-                CategoryId= 3,
-                Description= createProductVM.Description,
-                Price=createProductVM.Price,
-                DiscountId= 1,
-                ImageURL=filePath,
+                Name = createProductVM.Name,
+                CategoryId = 3,
+                Description = createProductVM.Description,
+                Price = createProductVM.Price,
+                DiscountId = 1,
+                ImageURL = returnPath,
             };
             _context.Products.Add(product);
 
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var deletedProduct=await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var deletedProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             _context.Products.Remove(deletedProduct);
 
             _context.SaveChanges();
@@ -68,33 +70,6 @@ namespace LiquorStoreFinalProject.Services
             var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
 
             var products = await _context.Products.Select(p => new GetAllProductVM
-             {
-                 Id = p.Id,
-                 ImageURL = p.ImageURL,
-                 CategoryName = p.Category.Name,
-                 Name = p.Name,
-                 Price = p.Price,
-             }).Skip((page - 1) * (int)pageResults)
-               .Take((int)pageResults)
-               .ToListAsync();
-
-            return new GetPaginatedProductVM
-            {
-                CurrentPage = page,
-                Products = products,
-                Pages = (int)pageCount
-            };
-
-        }
-
-        public async Task<GetPaginatedProductVM> GetProductsByCategory(int page,int categoryId)
-        {
-            var pageResults = 3f;
-            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
-
-            var filteredProducts = await _context.Products
-                .Where(p => p.CategoryId == categoryId)
-                .Select(p => new GetAllProductVM
             {
                 Id = p.Id,
                 ImageURL = p.ImageURL,
@@ -108,12 +83,67 @@ namespace LiquorStoreFinalProject.Services
             return new GetPaginatedProductVM
             {
                 CurrentPage = page,
+                Products = products,
+                Pages = (int)pageCount
+            };
+
+        }
+
+        public async Task<GetPaginatedProductVM> GetProductsByCategory(int page, int categoryId)
+        {
+            var pageResults = 3f;
+            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
+
+            var filteredProducts = await _context.Products
+                .Where(p => p.CategoryId == categoryId)
+                .Select(p => new GetAllProductVM
+                {
+                    Id = p.Id,
+                    ImageURL = p.ImageURL,
+                    CategoryName = p.Category.Name,
+                    Name = p.Name,
+                    Price = p.Price,
+                }).Skip((page - 1) * (int)pageResults)
+               .Take((int)pageResults)
+               .ToListAsync();
+
+            return new GetPaginatedProductVM
+            {
+                CurrentPage = page,
                 Products = filteredProducts,
                 Pages = (int)pageCount
             };
         }
-        
 
-        
+        public async Task UpdateAsync(int productId, UpdateProductVM updateProductVM)
+        {
+            var updatedProduct = _context.Products.FirstOrDefault(p => p.Id == productId);
+
+            var FileUniqueName = updateProductVM.Image.FileName;
+
+            var folderPath = Path.Combine(_env.WebRootPath, "photos");
+            var FullPath = Path.Combine(folderPath, FileUniqueName);
+            string rootFolder = @"wwwroot\";
+            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            Directory.CreateDirectory(folderPath);
+
+            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
+            {
+                updateProductVM.Image.CopyTo(fs);
+            }
+
+            updatedProduct.Name = updateProductVM.Name;
+            updatedProduct.CategoryId=updateProductVM.CategoryId;
+            updatedProduct.ImageURL = returnPath;
+            updatedProduct.Description=updateProductVM.Description;
+            updatedProduct.Price=updateProductVM.Price;
+
+             _context.SaveChanges();
+        }
     }
 }

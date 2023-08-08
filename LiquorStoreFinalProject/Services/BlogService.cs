@@ -33,7 +33,7 @@ namespace LiquorStoreFinalProject.Services
                 Directory.CreateDirectory(directoryPath);
             }
 
-            var filePath = Path.Combine(directoryPath, uniqueFileName); 
+            var filePath = Path.Combine(directoryPath, uniqueFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
@@ -42,20 +42,18 @@ namespace LiquorStoreFinalProject.Services
 
             var createdBlog = new Blog
             {
-                Title= createBlogVM.Title,
-                Description=createBlogVM.Description,
-                Image=filePath
+                Title = createBlogVM.Title,
+                Description = createBlogVM.Description,
+                Image = filePath
             };
-             _context.Blogs.Add(createdBlog);
+            _context.Blogs.Add(createdBlog);
 
             _context.SaveChanges();
         }
 
-
-
         public async Task DeleteAsync(int id)
         {
-            var deletedBlog=_context.Blogs.FirstOrDefault(b => b.Id == id);
+            var deletedBlog = _context.Blogs.FirstOrDefault(b => b.Id == id);
             _context.Blogs.Remove(deletedBlog);
             _context.SaveChanges();
         }
@@ -72,9 +70,9 @@ namespace LiquorStoreFinalProject.Services
 
             var blogs = await _context.Blogs.Select(p => new GetAllBlogVM
             {
-              Description = p.Description,
-              Image=p.Image,
-              Title=p.Title
+                Description = p.Description,
+                Image = p.Image,
+                Title = p.Title
             }).Skip((page - 1) * (int)pageResults)
                .Take((int)pageResults)
                .ToListAsync();
@@ -82,7 +80,7 @@ namespace LiquorStoreFinalProject.Services
             return new GetPaginatedBlogVM
             {
                 CurrentPage = page,
-                Blogs= blogs,
+                Blogs = blogs,
                 Pages = (int)pageCount
             };
         }

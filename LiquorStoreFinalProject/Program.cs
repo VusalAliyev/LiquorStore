@@ -36,6 +36,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
 
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
 var app = builder.Build();
 
 
@@ -61,6 +62,10 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
       name: "areas",
       pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+        name: "api",
+        pattern: "api/{controller}/{action}/{id?}"
     );
 
     endpoints.MapControllerRoute(
