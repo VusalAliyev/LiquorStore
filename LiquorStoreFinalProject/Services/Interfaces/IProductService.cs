@@ -9,7 +9,8 @@ namespace LiquorStoreFinalProject.Services.Interfaces
         Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page);
         Task<GetPaginatedProductVM> GetProductsByCategory(int page,int categoryId);
         Task CreateAsync(CreateProductVM createProductVM);
-        Task UpdateAsync(int productId, UpdateProductVM updateProductVM);
+        Task UpdateAsync(UpdateProductVM updateProductVM);
         Task DeleteAsync(int id);
+        Task<Product> GetProductById(int id);
     }
 }

@@ -1,4 +1,6 @@
-﻿    using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+﻿using AspNetCore;
+using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+using LiquorStoreFinalProject.Data;
 using LiquorStoreFinalProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +10,13 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+        private readonly AppDbContext _context;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, AppDbContext context)
         {
             _productService = productService;
+            _context = context;
         }
 
         [HttpGet]
@@ -24,6 +29,8 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Discounts= _context.Discounts.ToList();
             return View();
         }
 
@@ -34,18 +41,19 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
-        public async Task<IActionResult> UpdateProduct()
+        public async Task<IActionResult> UpdateProduct(int id)
         {
-            return View();
+            var product = _productService.GetProductById(id);
+            return View(product);
         }
-        [HttpPost("id")]
-        public async Task<IActionResult> UpdateProduct(int id,UpdateProductVM request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(UpdateProductVM request)
         {
-            await _productService.UpdateAsync(id,request);
+            await _productService.UpdateAsync(request);
             return View(nameof(Index));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _productService.DeleteAsync(id);

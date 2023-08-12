@@ -15,10 +15,14 @@ namespace LiquorStoreFinalProject.Services
         private readonly IWebHostEnvironment _env;
         private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10 MB
         private static readonly string[] AllowedMimeTypes = { "image/jpeg", "image/png" };
-        public ProductService(AppDbContext context, IWebHostEnvironment env)
+        private readonly ICategoryService _categoryService;
+        private readonly IDiscountService _discountService;
+        public ProductService(AppDbContext context, IWebHostEnvironment env, ICategoryService categoryService, IDiscountService discountService)
         {
             _context = context;
             _env = env;
+            _categoryService = categoryService;
+            _discountService = discountService;
         }
 
         public async Task CreateAsync(CreateProductVM createProductVM)
@@ -41,13 +45,17 @@ namespace LiquorStoreFinalProject.Services
                 createProductVM.Image.CopyTo(fs);
             }
 
+            var selectedCategory = _categoryService.GetById(createProductVM.CategoryId);
+            var selectedDiscount = _discountService.GetById(createProductVM.DiscountId);
+
             var product = new Product
             {
                 Name = createProductVM.Name,
-                CategoryId = 3,
+                Discount=selectedDiscount,
+                CategoryId = selectedCategory.Id,
                 Description = createProductVM.Description,
                 Price = createProductVM.Price,
-                DiscountId = 1,
+                DiscountId = selectedDiscount.Id,
                 ImageURL = returnPath,
             };
             _context.Products.Add(product);
@@ -62,7 +70,11 @@ namespace LiquorStoreFinalProject.Services
 
             _context.SaveChanges();
         }
-
+        public async Task<Product> GetProductById(int id)
+        {
+            var product = _context.Products.FirstOrDefault(p=>p.Id==id);
+            return product;
+        }
         public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page)
         {
 
@@ -74,6 +86,7 @@ namespace LiquorStoreFinalProject.Services
                 Id = p.Id,
                 ImageURL = p.ImageURL,
                 CategoryName = p.Category.Name,
+                DiscountName=p.Discount.Name,
                 Name = p.Name,
                 Price = p.Price,
             }).Skip((page - 1) * (int)pageResults)
@@ -101,6 +114,7 @@ namespace LiquorStoreFinalProject.Services
                     Id = p.Id,
                     ImageURL = p.ImageURL,
                     CategoryName = p.Category.Name,
+                    DiscountName=p.Discount.Name,
                     Name = p.Name,
                     Price = p.Price,
                 }).Skip((page - 1) * (int)pageResults)
@@ -115,9 +129,9 @@ namespace LiquorStoreFinalProject.Services
             };
         }
 
-        public async Task UpdateAsync(int productId, UpdateProductVM updateProductVM)
+        public async Task UpdateAsync(UpdateProductVM updateProductVM)
         {
-            var updatedProduct = _context.Products.FirstOrDefault(p => p.Id == productId);
+            var updatedProduct = _context.Products.FirstOrDefault(p => p.Id == updateProductVM.Id);
 
             var FileUniqueName = updateProductVM.Image.FileName;
 
@@ -137,7 +151,9 @@ namespace LiquorStoreFinalProject.Services
                 updateProductVM.Image.CopyTo(fs);
             }
 
+
             updatedProduct.Name = updateProductVM.Name;
+            updatedProduct.ImageURL = returnPath;
             updatedProduct.CategoryId=updateProductVM.CategoryId;
             updatedProduct.ImageURL = returnPath;
             updatedProduct.Description=updateProductVM.Description;

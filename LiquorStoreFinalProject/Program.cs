@@ -37,6 +37,8 @@ builder.Services.Configure<IdentityOptions>(opt =>
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
 var app = builder.Build();
 
 
@@ -57,21 +59,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-    );
-    endpoints.MapControllerRoute(
-        name: "api",
-        pattern: "api/{controller}/{action}/{id?}"
-    );
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//      name: "areas",
+//      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+//    );
 
-    endpoints.MapControllerRoute(
+//    endpoints.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+//});
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-});
 
 
 app.Run();
