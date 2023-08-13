@@ -205,15 +205,15 @@
                         </div>
                     </li>
                     
-                    <li class="nav-item">
+                    <li class="nav-item" asp-controller="Product" asp-action="Index">
                         <a class="nav-link" href="#" asp-controller="Category" asp-action="Index">
                             <i class="mdi mdi-view-headline menu-icon"></i>
-                            <span class="menu-title">Categories</span>
+                            <span action="Index" class="menu-title">Categories</span>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Product" asp-action="Index">
+                        <a class="nav-link" href="Product/Index" asp-controller="Product" asp-action="Index">
                             <i class="mdi mdi-chart-pie menu-icon"></i>
                             <span class="menu-title">Products</span>
                         </a>

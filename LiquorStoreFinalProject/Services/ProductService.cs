@@ -70,7 +70,7 @@ namespace LiquorStoreFinalProject.Services
 
             _context.SaveChanges();
         }
-        public async Task<Product> GetProductById(int id)
+        public  Product GetProductById(int id)
         {
             var product = _context.Products.FirstOrDefault(p=>p.Id==id);
             return product;
@@ -152,13 +152,14 @@ namespace LiquorStoreFinalProject.Services
             }
 
 
-            updatedProduct.Name = updateProductVM.Name;
+            updatedProduct.Name = updateProductVM.Name ?? updatedProduct.Name;
             updatedProduct.ImageURL = returnPath;
-            updatedProduct.CategoryId=updateProductVM.CategoryId;
+            updatedProduct.CategoryId=/*updateProductVM.CategoryId*/3;
+            updatedProduct.DiscountId = 2;
             updatedProduct.ImageURL = returnPath;
             updatedProduct.Description=updateProductVM.Description;
             updatedProduct.Price=updateProductVM.Price;
-
+            _context.Products.Update(updatedProduct);
              _context.SaveChanges();
         }
     }

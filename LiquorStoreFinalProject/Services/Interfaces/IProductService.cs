@@ -11,6 +11,6 @@ namespace LiquorStoreFinalProject.Services.Interfaces
         Task CreateAsync(CreateProductVM createProductVM);
         Task UpdateAsync(UpdateProductVM updateProductVM);
         Task DeleteAsync(int id);
-        Task<Product> GetProductById(int id);
+        Product GetProductById(int id);
     }
 }

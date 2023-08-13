@@ -42,26 +42,42 @@
 
     <form method="post" asp-action="Edit" enctype="multipart/form-data">
         <div class="form-group mt-3">
-            <input asp-for="Name" class="form-control" placeholder="Name" />
+            <input value="@Model.Name" name="Name"  class="form-control" placeholder="Name" />
             <span asp-validation-for="Name" class="text-danger d-block"></span>
         </div>
         <div class="form-group mt-3">
-            <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+            <textarea name="Description" name="Description" class="form-control" placeholder="Description">@Model.Description</textarea>
             <span asp-validation-for="Description" class="text-danger d-block"></span>
         </div>
         <div class="form-group mt-3">
-            <input asp-for="Price" type="number" step="any" class="form-control" placeholder="Price" />
+            <input value="@Model.Price" name="Price" type="number" step="any" class="form-control" placeholder="Price" />
             <span asp-validation-for="Price" class="text-danger d-block"></span>
         </div>
         <div class="form-group mt-3">
-            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.categories"></select>
+            <select value="@Model.CategoryId" asp-for="CategoryId" class="form-control" name="CategoryId">
+                @if (ViewBag.Categories != null)
+                {
+                    foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                }
+            </select>
         </div>
         <div class="form-group mt-3">
-            <select asp-for="DiscountId" class="form-control" asp-items="ViewBag.discounts"></select>
+            <select value="@Model.DiscountId" asp-for="DiscountId" class="form-control" name="DiscountId">
+                @if (ViewBag.Discounts != null)
+                {
+                    foreach (var discount in ViewBag.Discounts)
+                    {
+                        <option value="@discount.Id">@discount.Name</option>
+                    }
+                }
+            </select>
         </div>
         <div class="form-group mt-3">
-            <lable>Add new image</lable>
-            <input asp-for="NewImages" type="file" class="form-control" />
+            <lable>Update image</lable>
+            <input name="Image" type="file" class="form-control" />
         </div>
         <button type="submit" formmethod="post" class="btn btn-success btn-rounded btn-fw mt-3">Submit</button>
         <a asp-action="Index" class="btn btn-primary btn-rounded btn-fw mt-3">Back</a>

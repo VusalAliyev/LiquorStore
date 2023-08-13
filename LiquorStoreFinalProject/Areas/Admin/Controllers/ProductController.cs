@@ -1,6 +1,6 @@
-﻿using AspNetCore;
-using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
 using LiquorStoreFinalProject.Data;
+using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,10 +43,23 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            var product = _productService.GetProductById(id);
-            return View(product);
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Discounts = _context.Discounts.ToList();
+
+            Product product = _productService.GetProductById(id);
+            UpdateProductVM updateProductVM = new UpdateProductVM()
+            {
+                CategoryId = product.CategoryId,
+                Name = product.Name,
+                Description= product.Description,
+                DiscountId= product.DiscountId,
+                Id= product.Id,
+                ImageURL=product.ImageURL,
+                Price=product.Price
+            };
+            return View(updateProductVM);
         }
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProductVM request)
         {
             await _productService.UpdateAsync(request);
