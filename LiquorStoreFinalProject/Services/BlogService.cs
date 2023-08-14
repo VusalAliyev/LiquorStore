@@ -13,38 +13,38 @@ namespace LiquorStoreFinalProject.Services
     public class BlogService : IBlogService
     {
         private readonly AppDbContext _context;
-
-        public BlogService(AppDbContext context)
+        private readonly IWebHostEnvironment _env;
+        public BlogService(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task CreateAsync(CreateBlogVM createBlogVM)
         {
+            var FileUniqueName = createBlogVM.Image.FileName;
 
-            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(createBlogVM.Image.FileName);
-
-
-            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "BlogImages", uniqueFileName);
-
-
-            if (!Directory.Exists(directoryPath))
+            var folderPath = Path.Combine(_env.WebRootPath, "photos");
+            var FullPath = Path.Combine(folderPath, FileUniqueName);
+            string rootFolder = @"wwwroot\";
+            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+            if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(folderPath);
             }
 
-            var filePath = Path.Combine(directoryPath, uniqueFileName);
+            Directory.CreateDirectory(folderPath);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
             {
-                await createBlogVM.Image.CopyToAsync(fileStream);
+                createBlogVM.Image.CopyTo(fs);
             }
 
             var createdBlog = new Blog
             {
                 Title = createBlogVM.Title,
                 Description = createBlogVM.Description,
-                Image = filePath
+                ImageURL = returnPath
             };
             _context.Blogs.Add(createdBlog);
 
@@ -56,6 +56,11 @@ namespace LiquorStoreFinalProject.Services
             var deletedBlog = _context.Blogs.FirstOrDefault(b => b.Id == id);
             _context.Blogs.Remove(deletedBlog);
             _context.SaveChanges();
+        }
+
+        public Blog GetBlogById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<GetPaginatedBlogVM> GetDatasByCategory(int page, int categoryId)
@@ -71,7 +76,7 @@ namespace LiquorStoreFinalProject.Services
             var blogs = await _context.Blogs.Select(p => new GetAllBlogVM
             {
                 Description = p.Description,
-                Image = p.Image,
+                ImageURL = p.ImageURL,
                 Title = p.Title
             }).Skip((page - 1) * (int)pageResults)
                .Take((int)pageResults)
@@ -85,41 +90,41 @@ namespace LiquorStoreFinalProject.Services
             };
         }
 
-        public async Task UpdateAsync(int blogId, UpdateBlogVM updateBlogVM)
+        public async Task UpdateAsync(UpdateBlogVM updateBlogVM)
         {
-            var updatedBlog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == blogId);
+            var updatedBlog = await _context.Blogs.FirstOrDefaultAsync(b => b.Id == updateBlogVM.Id);
 
             if (updatedBlog == null)
             {
                 throw new Exception("Blog not found");
             }
 
-            if (System.IO.File.Exists(updatedBlog.Image))
+            if (System.IO.File.Exists(updatedBlog.ImageURL))
             {
-                System.IO.File.Delete(updatedBlog.Image);
+                System.IO.File.Delete(updatedBlog.ImageURL);
             }
 
-            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(updateBlogVM.Image.FileName);
+            var FileUniqueName = updateBlogVM.Image.FileName;
 
-            //FerrumCapital.API\bin\Debug\net7.0\Downloaded\
-            var directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BlogImages");
-
-            if (!Directory.Exists(directoryPath))
+            var folderPath = Path.Combine(_env.WebRootPath, "photos");
+            var FullPath = Path.Combine(folderPath, FileUniqueName);
+            string rootFolder = @"wwwroot\";
+            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+            if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(folderPath);
             }
 
-            var filePath = Path.Combine(directoryPath, uniqueFileName);
+            Directory.CreateDirectory(folderPath);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
             {
-                await updateBlogVM.Image.CopyToAsync(fileStream);
+                updateBlogVM.Image.CopyTo(fs);
             }
 
             updatedBlog.Title = updateBlogVM.Title;
             updatedBlog.Description = updateBlogVM.Description;
-            updatedBlog.Image = filePath;
-
+            updatedBlog.ImageURL = returnPath;
 
             await _context.SaveChangesAsync();
 

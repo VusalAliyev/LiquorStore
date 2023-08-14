@@ -1,0 +1,67 @@
+﻿@using LiquorStoreFinalProject.ViewModels;
+@model GetPaginatedBlogVM;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container my-3">
+    <h2 class="text-center">Blogs</h2>
+    <div class="create-btn ">
+        <a href="@Url.Action("CreateBlog", "Blog")" class="btn btn-success btn-rounded btn-fw">Create</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var blog in Model.Blogs)
+                {
+                    <tr>
+                        <td class="py-1">
+                            <img src="~/@blog.ImageURL" style="width:100px;height:150px" />
+                        </td>
+                        <td class="py-1">
+                            @blog.Title
+                        </td>
+                        <td class="py-1">
+                            @blog.Description
+                        </td>
+                        <td>
+                            <a href="@Url.Action("UpdateBlog", "Blog", new { id = blog.Id })" class="btn btn-warning btn-rounded btn-fw">Edit</a>
+                            <a href="@Url.Action("DeleteBlog", "Blog", new { id = blog.Id })" class="btn btn-danger btn-rounded btn-fw">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="pagination d-flex justify-content-center mt-3">
+            <nav aria-label="...">
+                <ul class="pagination">
+
+                    @for (int i = 1; i <= Model.Pages; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "disabled" : "")">
+                            <a class="page-link " href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+

@@ -1,11 +1,13 @@
-﻿//using AspNetCore;
-using LiquorStoreFinalProject.Areas.Admin.ViewModels.Blog;
-using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Blog;
+using LiquorStoreFinalProject.Models;
+using LiquorStoreFinalProject.Services;
 using LiquorStoreFinalProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LiquorStoreFinalProject.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class BlogController : Controller
     {
         private readonly IBlogService _blogService;
@@ -14,41 +16,53 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         {
             _blogService = blogService;
         }
+
         [HttpGet]
-        public IActionResult Index(int page=1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var blogs = _blogService.GetPaginatedDatasAsync(page);
+            var blogs = await _blogService.GetPaginatedDatasAsync(page);
             return View(blogs);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateBlog()
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Create(CreateBlogVM createBlogVM)
+        public async Task<IActionResult> CreateBlog(CreateBlogVM request)
         {
-            _blogService.CreateAsync(createBlogVM);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpGet]
-        public IActionResult Update()
-        {
-            return View();
-        }
-        [HttpPut]
-        public IActionResult Update(int blogId, UpdateBlogVM updateBlogVM)
-        {
-            _blogService.UpdateAsync(blogId, updateBlogVM);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpDelete]
-        public IActionResult Delete(int id)
-        {
-            _blogService.DeleteAsync(id);
+            await _blogService.CreateAsync(request);
             return RedirectToAction(nameof(Index));
         }
 
+        //Update
+        [HttpGet]
+        public async Task<IActionResult> UpdateBlog(int id)
+        {
+            Blog blog = _blogService.GetBlogById(id);
+            UpdateBlogVM updateBlogVM = new UpdateBlogVM()
+            {
+                Id=blog.Id,
+                Description=blog.Description,
+                ImageURL=blog.ImageURL,
+                Title=blog.Title,
+            };
+            return View(updateBlogVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateBlog(UpdateBlogVM request)
+        {
+            await _blogService.UpdateAsync(request);
+            return View(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            await _blogService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }
