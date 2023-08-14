@@ -60,7 +60,8 @@ namespace LiquorStoreFinalProject.Services
 
         public Blog GetBlogById(int id)
         {
-            throw new NotImplementedException();
+            var selectedBlog=_context.Blogs.FirstOrDefault(b=>b.Id == id);
+            return selectedBlog;
         }
 
         public Task<GetPaginatedBlogVM> GetDatasByCategory(int page, int categoryId)
@@ -75,6 +76,7 @@ namespace LiquorStoreFinalProject.Services
 
             var blogs = await _context.Blogs.Select(p => new GetAllBlogVM
             {
+                Id=p.Id,
                 Description = p.Description,
                 ImageURL = p.ImageURL,
                 Title = p.Title
