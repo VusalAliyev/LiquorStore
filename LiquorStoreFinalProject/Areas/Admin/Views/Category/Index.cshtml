@@ -1,0 +1,51 @@
+﻿@using LiquorStoreFinalProject.Models;
+@using LiquorStoreFinalProject.ViewModels;
+@model List<Category>;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container my-3">
+    <h2 class="text-center">Categories</h2>
+    <div class="create-btn ">
+        <a href="@Url.Action("CreateCategory", "Category")" class="btn btn-success btn-rounded btn-fw">Create</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td class="py-1">
+                            <img src="~/@category.ImageURL" style="width:100px;height:150px" />
+                        </td>
+                        <td class="py-1">
+                            @category.Name
+                        </td>
+                        <td>
+                            <a href="@Url.Action("UpdateCategory", "Category", new { id = category.Id })" class="btn btn-warning btn-rounded btn-fw">Edit</a>
+                            <a href="@Url.Action("DeleteCategory", "Category", new { id = category.Id })" class="btn btn-danger btn-rounded btn-fw">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
