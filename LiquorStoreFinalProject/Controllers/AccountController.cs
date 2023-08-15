@@ -45,8 +45,18 @@ namespace LiquorStoreFinalProject.Controllers
                 Email = request.Email,
                 EmailConfirmed = true
             };
+            //Create Roles
+            //foreach (var role in Enum.GetValues(typeof(Roles)))
+            //{
+            //    if (!await _roleManager.RoleExistsAsync(role.ToString()))
+            //    {
+            //        await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+            //    }
+            //}
 
             var result = await _userManager.CreateAsync(user, request.Password);
+
+            await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
             if (!result.Succeeded)
             {
@@ -115,18 +125,18 @@ namespace LiquorStoreFinalProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> CreateRoles()
-        {
-            foreach (var role in Enum.GetValues(typeof(Roles)))
-            {
-                if (!await _roleManager.RoleExistsAsync(role.ToString()))
-                {
-                    await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
-                }
-            }
+        //public async Task<IActionResult> CreateRoles()
+        //{
+        //    foreach (var role in Enum.GetValues(typeof(Roles)))
+        //    {
+        //        if (!await _roleManager.RoleExistsAsync(role.ToString()))
+        //        {
+        //            await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+        //        }
+        //    }
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
     }
 }
