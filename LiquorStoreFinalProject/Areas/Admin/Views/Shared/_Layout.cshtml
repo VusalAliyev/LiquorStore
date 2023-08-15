@@ -170,92 +170,40 @@
                 <ul class="nav">
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="~/Admin">
                             <i class="mdi mdi-home menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
                  
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic1">
-                            <i class="mdi mdi-circle-outline menu-icon"></i>
-                            <span class="menu-title">Sliders</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic1">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" asp-controller="Slider" asp-action="Index">Slider</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Slider info</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
-                            <i class="mdi mdi-circle-outline menu-icon"></i>
-                            <span class="menu-title">Archives</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic2">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" asp-controller="Archive" asp-action="Categories">Categories</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Products</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Blogs</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    
-                    <li class="nav-item" asp-controller="Product" asp-action="Index">
-                        <a class="nav-link" href="#" asp-controller="Category" asp-action="Index">
+                    <li class="nav-item" href="~/Admin/Category/Index">
+                        <a class="nav-link" href="~/Admin/Category/Index">
                             <i class="mdi mdi-view-headline menu-icon"></i>
                             <span action="Index" class="menu-title">Categories</span>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="Product/Index" asp-controller="Product" asp-action="Index">
+                        <a class="nav-link" href="~/Admin/Product/Index">
                             <i class="mdi mdi-chart-pie menu-icon"></i>
                             <span class="menu-title">Products</span>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Blog" asp-action="Index">
+                        <a class="nav-link" href="~/Admin/Blog/Index">
                             <i class="mdi mdi-grid-large menu-icon"></i>
                             <span class="menu-title">Blogs</span>
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Discount" asp-action="Index">
+                        <a class="nav-link" href="~/Admin/Discount/Index">
                             <i class="mdi mdi-emoticon menu-icon"></i>
-                            <span class="menu-title">Discount</span>
+                            <span class="menu-title">Discounts</span>
                         </a>
                     </li>
                    
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                            <i class="mdi mdi-account menu-icon"></i>
-                            <span class="menu-title">User Pages</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="auth">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login-2.html"> Login 2 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/register-2.html"> Register 2 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/lock-screen.html"> Lockscreen </a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="documentation/documentation.html">
-                            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-                            <span class="menu-title">Documentation</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
         @RenderBody()

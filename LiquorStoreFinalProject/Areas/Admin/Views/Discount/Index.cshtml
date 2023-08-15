@@ -1,0 +1,51 @@
+﻿@using LiquorStoreFinalProject.Models;
+@using LiquorStoreFinalProject.ViewModels;
+@model List<Discount>;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container my-3">
+    <h2 class="text-center">Discounts</h2>
+    <div class="create-btn ">
+        <a href="@Url.Action("CreateDiscount", "Discount")" class="btn btn-success btn-rounded btn-fw">Create</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Percent
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var discount in Model)
+                {
+                    <tr>
+                        <td class="py-1">
+                            @discount.Name
+                        </td>
+                        <td class="py-1">
+                            @discount.Percent
+                        </td>
+                        <td>
+                            <a href="@Url.Action("UpdateDiscount", "Discount", new { id = discount.Id })" class="btn btn-warning btn-rounded btn-fw">Edit</a>
+                            <a href="@Url.Action("DeleteDiscount", "Discount", new { id = discount.Id })" class="btn btn-danger btn-rounded btn-fw">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
