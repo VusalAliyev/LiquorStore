@@ -72,11 +72,12 @@ namespace LiquorStoreFinalProject.Services
         public async Task<GetPaginatedBlogVM> GetPaginatedDatasAsync(int page)
         {
             var pageResults = 3f;
-            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
+            var pageCount = Math.Ceiling(_context.Blogs.Count() / pageResults);
 
             var blogs = await _context.Blogs.Select(p => new GetAllBlogVM
             {
                 Id=p.Id,
+                CreateDate=p.CreatedDate,
                 Description = p.Description,
                 ImageURL = p.ImageURL,
                 Title = p.Title

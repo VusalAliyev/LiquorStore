@@ -1,4 +1,5 @@
 ﻿using LiquorStoreFinalProject.Data;
+using LiquorStoreFinalProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LiquorStoreFinalProject.Controllers
@@ -6,15 +7,15 @@ namespace LiquorStoreFinalProject.Controllers
     public class BlogsController : Controller
     {
         private readonly AppDbContext _context;
-
-        public BlogsController(AppDbContext context)
+        private readonly IBlogService _blogService;
+        public BlogsController(AppDbContext context, IBlogService blogService)
         {
             _context = context;
+            _blogService = blogService;
         }
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var blogs = _context.Blogs.ToList();
+            var blogs = await _blogService.GetPaginatedDatasAsync(page);
             return View(blogs);
         }
         public async Task<IActionResult> BlogDetails(int id)

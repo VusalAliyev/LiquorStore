@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Blog>
+﻿@using LiquorStoreFinalProject.ViewModels;
+@model GetPaginatedBlogVM
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +32,7 @@
     <section class="ftco-section">
         <div class="container">
             <div class="row d-flex">
-                @foreach (var blog in Model)
+                @foreach (var blog in Model.Blogs)
                 {
                 <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
                     <div class="blog-entry d-md-flex">
@@ -39,7 +40,7 @@
                         </a>
                         <div class="text p-4 bg-light">
                             <div class="meta">
-                                    <p><span class="fa fa-calendar"></span>@blog.CreatedDate.ToString("dd MMMM yyyy")</p>
+                                    <p><span class="fa fa-calendar"></span>@blog.CreateDate.ToString("dd MMMM yyyy")</p>
                             </div>
                                 <h3 class="heading mb-3"><a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })">@blog.Title</a></h3>
                             <p>@blog.Description</p>
@@ -54,13 +55,10 @@
                 <div class="col text-center">
                     <div class="block-27">
                         <ul>
-                            <li><a href="#">&lt;</a></li>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
+                            @for (int i = 1; i <= Model.Pages; i++)
+                            {
+                                <li><a href="@Url.Action("Index", new { page = i })">@i</a></li>
+                            }
                         </ul>
                     </div>
                 </div>
