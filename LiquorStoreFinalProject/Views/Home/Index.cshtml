@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using LiquorStoreFinalProject.ViewModels;
+@model HomeVM
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Liquor Store - Free Bootstrap 4 Template by Colorlib</title>
@@ -15,7 +17,7 @@
     <script nonce="571cfb08-a808-40cf-bc4a-d053f664344f">(function (w, d) { !function (j, k, l, m) { j[l] = j[l] || {}; j[l].executed = []; j.zaraz = { deferred: [], listeners: [] }; j.zaraz.q = []; j.zaraz._f = function (n) { return function () { var o = Array.prototype.slice.call(arguments); j.zaraz.q.push({ m: n, a: o }) } }; for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p); j.zaraz.init = () => { var q = k.getElementsByTagName(m)[0], r = k.createElement(m), s = k.getElementsByTagName("title")[0]; s && (j[l].t = k.getElementsByTagName("title")[0].text); j[l].x = Math.random(); j[l].w = j.screen.width; j[l].h = j.screen.height; j[l].j = j.innerHeight; j[l].e = j.innerWidth; j[l].l = j.location.href; j[l].r = k.referrer; j[l].k = j.screen.colorDepth; j[l].n = k.characterSet; j[l].o = (new Date).getTimezoneOffset(); if (j.dataLayer) for (const w of Object.entries(Object.entries(dataLayer).reduce(((x, y) => ({ ...x[1], ...y[1] })), {}))) zaraz.set(w[0], w[1], { scope: "page" }); j[l].q = []; for (; j.zaraz.q.length;) { const z = j.zaraz.q.shift(); j[l].q.push(z) } r.defer = !0; for (const A of [localStorage, sessionStorage]) Object.keys(A || {}).filter((C => C.startsWith("_zaraz_"))).forEach((B => { try { j[l]["z_" + B.slice(7)] = JSON.parse(A.getItem(B)) } catch { j[l]["z_" + B.slice(7)] = A.getItem(B) } })); r.referrerPolicy = "origin"; r.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(j[l]))); q.parentNode.insertBefore(r, q) };["complete", "interactive"].includes(k.readyState) ? zaraz.init() : j.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
 </head>
 <body>
-   
+
     <div class="hero-wrap" style="background-image: url('@Url.Content("~/assets/images/bg_2.jpg")')"
          data-stellar-background-ratio="0.5">
         @*<img src="~/assets/images/bg_2.jpg" />*@
@@ -74,7 +76,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 img img-3 d-flex justify-content-center align-items-center" style="background-image: url('@Url.Content("~/assets/images/about.jpg")');">
-                    
                 </div>
                 <div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
                     <div class="heading-section">
@@ -91,45 +92,20 @@
             </div>
         </div>
     </section>
+    @*Categories*@
     <section class="ftco-section ftco-no-pb">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/about.jpg")');"></div>
-                        <h3>Brandy</h3>
+                @foreach (var category in Model.Categories)
+                {
+
+                    <div class="col-lg-2 col-md-4 ">
+                        <div class="sort w-100 text-center ftco-animate">
+                            <div class="img" style="background-image: url('@Url.Content($"~/{category.ImageURL}")');"></div>
+                            <h3>@category.Name</h3>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/kind-2.jpg")');"></div>
-                        <h3>Gin</h3>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/kind-3.jpg")');"></div>
-                        <h3>Rum</h3>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/kind-4.jpg")');"></div>
-                        <h3>Tequila</h3>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/kind-5.jpg")');"></div>
-                        <h3>Vodka</h3>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 ">
-                    <div class="sort w-100 text-center ftco-animate">
-                        <div class="img" style="background-image: url('@Url.Content("~/assets/images/kind-4.jpg")');"></div>
-                        <h3>Whiskey</h3>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </section>
@@ -145,7 +121,7 @@
                 <div class="col-md-3 d-flex">
                     <div class="product ftco-animate">
                         <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content("~/assets/images/prod-1.jpg")');">
-                           
+
                             <div class="desc">
                                 <p class="meta-prod d-flex">
                                     <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
@@ -164,7 +140,7 @@
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="product ftco-animate">
-                        <div class="img d-flex align-items-center justify-content-center"  style="background-image: url('@Url.Content("~/assets/images/prod-2.jpg")');">
+                        <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content("~/assets/images/prod-2.jpg")');">
                             <div class="desc">
                                 <p class="meta-prod d-flex">
                                     <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
@@ -202,7 +178,7 @@
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="product ftco-animate">
-                        <div class="img d-flex align-items-center justify-content-center"  style="background-image: url('@Url.Content("~/assets/images/prod-4.jpg")');">
+                        <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content("~/assets/images/prod-4.jpg")');">
                             <div class="desc">
                                 <p class="meta-prod d-flex">
                                     <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
@@ -220,7 +196,7 @@
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="product ftco-animate">
-                        <div class="img d-flex align-items-center justify-content-center"  style="background-image: url('@Url.Content("~/assets/images/prod-5.jpg")');">
+                        <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content("~/assets/images/prod-5.jpg")');">
                             <div class="desc">
                                 <p class="meta-prod d-flex">
                                     <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
@@ -238,7 +214,7 @@
                 </div>
                 <div class="col-md-3 d-flex">
                     <div class="product ftco-animate">
-                        <div class="img d-flex align-items-center justify-content-center"  style="background-image: url('@Url.Content("~/assets/images/prod-6.jpg")');">
+                        <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content("~/assets/images/prod-6.jpg")');">
                             <div class="desc">
                                 <p class="meta-prod d-flex">
                                     <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
@@ -298,7 +274,7 @@
             </div>
         </div>
     </section>
-    <section class="ftco-section testimony-section img"  style="background-image: url('@Url.Content("~/assets/images/bg_4")');">
+    <section class="ftco-section testimony-section img" style="background-image: url('@Url.Content("~/assets/images/bg_4")');">
         <div class="overlay"></div>
         <div class="container">
             <div class="row justify-content-center mb-5">
@@ -399,62 +375,25 @@
                 </div>
             </div>
             <div class="row d-flex">
-                <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
-                    <div class="blog-entry d-flex">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_1.jpg")');">
-                        </a>
-                        <div class="text p-4 bg-light">
-                            <div class="meta">
-                                <p><span class="fa fa-calendar"></span> 23 April 2020</p>
+
+                @foreach (var blog in Model.Blogs)
+                {
+
+                    <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+                        <div class="blog-entry d-flex">
+                            <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content($"~/{blog.ImageURL}")');">
+                            </a>
+                            <div class="text p-4 bg-light">
+                                <div class="meta">
+                                    <p><span class="fa fa-calendar"></span> @blog.CreatedDate.ToString("dd MMMM yyyy")</p>
+                                </div>
+                                <h3 class="heading mb-3"><a href="#">@blog.Title</a></h3>
+                                <p>@blog.Description</p>
+                                <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
                             </div>
-                            <h3 class="heading mb-3"><a href="#">The Recipe from a Winemaker’s Restaurent</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                            <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
-                    <div class="blog-entry d-flex">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_2.jpg")');">
-                        </a>
-                        <div class="text p-4 bg-light">
-                            <div class="meta">
-                                <p><span class="fa fa-calendar"></span> 23 April 2020</p>
-                            </div>
-                            <h3 class="heading mb-3"><a href="#">The Recipe from a Winemaker’s Restaurent</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                            <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
-                    <div class="blog-entry d-flex">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_3.jpg")');">
-                        </a>
-                        <div class="text p-4 bg-light">
-                            <div class="meta">
-                                <p><span class="fa fa-calendar"></span> 23 April 2020</p>
-                            </div>
-                            <h3 class="heading mb-3"><a href="#">The Recipe from a Winemaker’s Restaurent</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                            <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
-                    <div class="blog-entry d-flex">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_4.jpg")');">
-                        </a>
-                        <div class="text p-4 bg-light">
-                            <div class="meta">
-                                <p><span class="fa fa-calendar"></span> 23 April 2020</p>
-                            </div>
-                            <h3 class="heading mb-3"><a href="#">The Recipe from a Winemaker’s Restaurent</a></h3>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                            <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </section>
