@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/LiquorStoreFinalProject.styles.css" asp-append-version="true" />
 </head>*@
 <body>
-    @Html.Partial("_Header")
+    @await Component.InvokeAsync("Header")  
 
             @RenderBody()
 

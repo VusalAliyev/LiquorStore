@@ -34,20 +34,20 @@
             <div class="row d-flex">
                 @foreach (var blog in Model.Blogs)
                 {
-                <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
-                    <div class="blog-entry d-md-flex">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_2.jpg")');">
-                        </a>
-                        <div class="text p-4 bg-light">
-                            <div class="meta">
+                    <div class="col-lg-6 d-flex align-items-stretch ftco-animate">
+                        <div class="blog-entry d-md-flex">
+                            <a href="blog-single.html" class="block-20 img" style="background-image: url('@Url.Content("~/assets/images/image_2.jpg")');">
+                            </a>
+                            <div class="text p-4 bg-light">
+                                <div class="meta">
                                     <p><span class="fa fa-calendar"></span>@blog.CreateDate.ToString("dd MMMM yyyy")</p>
-                            </div>
+                                </div>
                                 <h3 class="heading mb-3"><a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })">@blog.Title</a></h3>
-                            <p>@blog.Description</p>
+                                <p>@blog.Description</p>
                                 <a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 }
             </div>
 
