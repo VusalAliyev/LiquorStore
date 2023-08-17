@@ -319,7 +319,7 @@
                                 <div class="meta">
                                     <p><span class="fa fa-calendar"></span> @blog.CreatedDate.ToString("dd MMMM yyyy")</p>
                                 </div>
-                                <h3 class="heading mb-3"><a href="#">@blog.Title</a></h3>
+                                <h3 class="heading mb-3"><a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })">@blog.Title</a></h3>
                                 <p>@blog.Description</p>
                                 <a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
                             </div>

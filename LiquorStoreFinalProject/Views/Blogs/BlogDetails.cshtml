@@ -185,7 +185,7 @@
                             <div class="block-21 mb-4 d-flex">
                                 <a class="blog-img mr-4" style="background-image: url('@Url.Content($"~/{blog.ImageURL}")');"></a>
                                 <div class="text">
-                                    <h3 class="heading"><a href="#">@blog.Title</a></h3>
+                                    <h3 class="heading"><a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })">@blog.Title</a></h3>
                                     <div class="meta">
                                         <div><a href="#"><span class="fa fa-calendar"></span>@blog.CreatedDate.ToString("dd MMMM yyyy")</a></div>
                                         <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>

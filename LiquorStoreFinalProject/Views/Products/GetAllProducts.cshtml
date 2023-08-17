@@ -104,23 +104,23 @@
                             </ul>
                         </div>
                     </div>
-              
+
                     @*@await Component.InvokeAsync("RecentBlogs")*@
 
-                          <div class="sidebar-box ftco-animate">
+                    <div class="sidebar-box ftco-animate">
                         <h3>Recent Blog</h3>
                         @foreach (var blog in ViewBag.Recent3Blogs)
                         {
-                        <div class="block-21 mb-4 d-flex">
+                            <div class="block-21 mb-4 d-flex">
                                 <a class="blog-img mr-4" style="background-image: url('@Url.Content($"~/{blog.ImageURL}")');"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">@blog.Title</a></h3>
-                                <div class="meta">
+                                <div class="text">
+                                    <h3 class="heading"><a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })">@blog.Title</a></h3>
+                                    <div class="meta">
                                         <div><a href="#"><span class="fa fa-calendar"></span>@blog.CreatedDate.ToString("dd MMMM yyyy")</a></div>
-                                    <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                                        <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         }
                     </div>
                 </div>
