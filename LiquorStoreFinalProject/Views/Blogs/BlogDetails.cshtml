@@ -16,7 +16,7 @@
     <script nonce="4093ac95-e3a1-4797-b26e-6c6b6524aa3d">(function (w, d) { !function (bt, bu, bv, bw) { bt[bv] = bt[bv] || {}; bt[bv].executed = []; bt.zaraz = { deferred: [], listeners: [] }; bt.zaraz.q = []; bt.zaraz._f = function (bx) { return function () { var by = Array.prototype.slice.call(arguments); bt.zaraz.q.push({ m: bx, a: by }) } }; for (const bz of ["track", "set", "debug"]) bt.zaraz[bz] = bt.zaraz._f(bz); bt.zaraz.init = () => { var bA = bu.getElementsByTagName(bw)[0], bB = bu.createElement(bw), bC = bu.getElementsByTagName("title")[0]; bC && (bt[bv].t = bu.getElementsByTagName("title")[0].text); bt[bv].x = Math.random(); bt[bv].w = bt.screen.width; bt[bv].h = bt.screen.height; bt[bv].j = bt.innerHeight; bt[bv].e = bt.innerWidth; bt[bv].l = bt.location.href; bt[bv].r = bu.referrer; bt[bv].k = bt.screen.colorDepth; bt[bv].n = bu.characterSet; bt[bv].o = (new Date).getTimezoneOffset(); if (bt.dataLayer) for (const bG of Object.entries(Object.entries(dataLayer).reduce(((bH, bI) => ({ ...bH[1], ...bI[1] })), {}))) zaraz.set(bG[0], bG[1], { scope: "page" }); bt[bv].q = []; for (; bt.zaraz.q.length;) { const bJ = bt.zaraz.q.shift(); bt[bv].q.push(bJ) } bB.defer = !0; for (const bK of [localStorage, sessionStorage]) Object.keys(bK || {}).filter((bM => bM.startsWith("_zaraz_"))).forEach((bL => { try { bt[bv]["z_" + bL.slice(7)] = JSON.parse(bK.getItem(bL)) } catch { bt[bv]["z_" + bL.slice(7)] = bK.getItem(bL) } })); bB.referrerPolicy = "origin"; bB.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(bt[bv]))); bA.parentNode.insertBefore(bB, bA) };["complete", "interactive"].includes(bu.readyState) ? zaraz.init() : bt.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
 </head>
 <body>
-   
+
     <section class="hero-wrap hero-wrap-2" style="background-image: url('@Url.Content("~/assets/images/image_2.jpg")');" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
@@ -177,42 +177,26 @@
                             <li><a href="#">Business Problem <span class="fa fa-chevron-right"></span></a></li>
                         </div>
                     </div>
+
                     <div class="sidebar-box ftco-animate">
                         <h3>Recent Blog</h3>
-                        <div class="block-21 mb-4 d-flex">
-                            <a class="blog-img mr-4" style="background-image: url('@Url.Content("~/assets/images/image_1.jpg")');"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                <div class="meta">
-                                    <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-                                    <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                                    <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                        @foreach (var blog in ViewBag.Recent3Blogs)
+                        {
+                            <div class="block-21 mb-4 d-flex">
+                                <a class="blog-img mr-4" style="background-image: url('@Url.Content($"~/{blog.ImageURL}")');"></a>
+                                <div class="text">
+                                    <h3 class="heading"><a href="#">@blog.Title</a></h3>
+                                    <div class="meta">
+                                        <div><a href="#"><span class="fa fa-calendar"></span>@blog.CreatedDate.ToString("dd MMMM yyyy")</a></div>
+                                        <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
+                                        <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="block-21 mb-4 d-flex">
-                            <a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                <div class="meta">
-                                    <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-                                    <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                                    <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="block-21 mb-4 d-flex">
-                            <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-                            <div class="text">
-                                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                                <div class="meta">
-                                    <div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-                                    <div><a href="#"><span class="fa fa-user"></span> Admin</a></div>
-                                    <div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-                                </div>
-                            </div>
-                        </div>
+                        }
+                      
                     </div>
+
                     <div class="sidebar-box ftco-animate">
                         <h3>Tag Cloud</h3>
                         <div class="tagcloud">

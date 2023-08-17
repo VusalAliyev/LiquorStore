@@ -26,6 +26,7 @@ namespace LiquorStoreFinalProject.Controllers
         {
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
+            ViewBag.Recent3Blogs = _context.Blogs.Take(3).OrderByDescending(b => b.CreatedDate).ToList();
 
             var data = await _productService.GetPaginatedProductsAsync(page);
             return View(data);

@@ -20,8 +20,10 @@ namespace LiquorStoreFinalProject.Controllers
         }
         public async Task<IActionResult> BlogDetails(int id)
         {
+            ViewBag.Recent3Blogs = _context.Blogs.Take(3).OrderByDescending(b => b.CreatedDate).ToList();
             var blog =  _context.Blogs.FirstOrDefault(b => b.Id == id);
             return View(blog);
         }
+
     }
 }

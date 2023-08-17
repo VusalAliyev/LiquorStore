@@ -186,7 +186,7 @@
                                     <p class="meta-prod d-flex">
                                         <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
                                         <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-heart"></span></a>
-                                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
+                                        <a href="@Url.Action("ProductDetails", "Products", new { id = product.Id })" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
                                     </p>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-4">
-                    <a href="product.html" class="btn btn-primary d-block">View All Products <span class="fa fa-long-arrow-right"></span></a>
+                    <a asp-controller="Products" asp-action="GetAllProducts" class="btn btn-primary d-block">View All Products <span class="fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
         </div>
@@ -321,7 +321,7 @@
                                 </div>
                                 <h3 class="heading mb-3"><a href="#">@blog.Title</a></h3>
                                 <p>@blog.Description</p>
-                                <a href="#" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
+                                <a href="@Url.Action("BlogDetails", "Blogs", new { id = blog.Id })" class="btn-custom">Continue <span class="fa fa-long-arrow-right"></span></a>
                             </div>
                         </div>
                     </div>
