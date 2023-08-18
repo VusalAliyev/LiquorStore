@@ -184,7 +184,7 @@
                             <div class="img d-flex align-items-center justify-content-center" style="background-image: url('@Url.Content($"~/{product.ImageURL}")');">
                                 <div class="desc">
                                     <p class="meta-prod d-flex">
-                                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
+                                        <a href="/Basket/AddBasket/@product.Id" class="d-flex align-items-center justify-content-center"><span class="flaticon-shopping-bag"></span></a>
                                         <a href="#" class="d-flex align-items-center justify-content-center"><span class="flaticon-heart"></span></a>
                                         <a href="@Url.Action("ProductDetails", "Products", new { id = product.Id })" class="d-flex align-items-center justify-content-center"><span class="flaticon-visibility"></span></a>
                                     </p>

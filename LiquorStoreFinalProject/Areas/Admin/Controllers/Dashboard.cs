@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LiquorStoreFinalProject.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class Dashboard : Controller
     {
