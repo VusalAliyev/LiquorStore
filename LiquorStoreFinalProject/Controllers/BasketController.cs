@@ -19,27 +19,70 @@ namespace LiquorStoreFinalProject.Controllers
 
         public async Task<IActionResult> AddBasket(int? id)
         {
+            if (id == null) return NotFound();
             Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null) return NotFound();
 
-            List<Product> products = JsonConvert.DeserializeObject<List<Product>>(Request.Cookies["basket"]);
-            products.Add(product);
+            List<BasketVM> basketProducts;
+            if (Request.Cookies["basket"] == null)
+            {
+                basketProducts = new List<BasketVM>();
+            }
+            else
+            {
+                basketProducts = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
+            }
+
+
+            BasketVM existBasketProduct = basketProducts.FirstOrDefault(p => p.Id == id);
+
+            if (existBasketProduct != null)
+            {
+                existBasketProduct.Count++;
+            }
+            else
+            {
+                BasketVM newBasketProduct = new BasketVM
+                {
+                    Id = product.Id,
+                    Count = 1
+                };
+                basketProducts.Add(newBasketProduct);
+            }
 
 
 
 
-            string cookies = JsonConvert.SerializeObject(products);
+            string cookies = JsonConvert.SerializeObject(basketProducts);
             Response.Cookies.Append("basket", cookies, new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
 
             return Content("ok" + id);
         }
 
-        public ActionResult Basket()
+        public async Task<ActionResult> Index()
         {
             string cookies = Request.Cookies["basket"];
 
-            List<Product> products = JsonConvert.DeserializeObject<List<Product>>(cookies);
+            List<BasketVM> products;
+            
+            if (cookies != null)
+            {
+                products = JsonConvert.DeserializeObject<List<BasketVM>>(cookies);
+            }
+            else
+            {
+                products=new List<BasketVM>();
+            }
+            foreach (BasketVM item in products)
+            {
+                Product product = await _context.Products.FindAsync(item.Id);
 
-            return Json(products);
+                item.Description = product.Description;
+                item.Name = product.Name;
+                item.Price = product.Price;
+            }
+
+            return View(products);
         }
 
     }
