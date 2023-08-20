@@ -1,4 +1,4 @@
-using LiquorStoreFinalProject.Data;
+﻿using LiquorStoreFinalProject.Data;
 using LiquorStoreFinalProject.Helpers;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services;
@@ -33,8 +33,11 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     opt.Lockout.AllowedForNewUsers = true;
 });
-
-
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -49,7 +52,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -57,19 +59,6 @@ app.UseRouting();
     
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//      name: "areas",
-//      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-//    );
-
-//    endpoints.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-//});
 
 app.MapControllerRoute(
     name: "areas",
@@ -79,5 +68,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
+app.UseSession();
 app.Run();

@@ -56,7 +56,7 @@ namespace LiquorStoreFinalProject.Controllers
             string cookies = JsonConvert.SerializeObject(basketProducts);
             Response.Cookies.Append("basket", cookies, new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
 
-            return Content("ok" + id);
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Index()
@@ -73,6 +73,8 @@ namespace LiquorStoreFinalProject.Controllers
             {
                 products=new List<BasketVM>();
             }
+
+            decimal totalPrice = 0;
             foreach (BasketVM item in products)
             {
                 Product product = await _context.Products.FindAsync(item.Id);
@@ -80,7 +82,11 @@ namespace LiquorStoreFinalProject.Controllers
                 item.Description = product.Description;
                 item.Name = product.Name;
                 item.Price = product.Price;
+
+                totalPrice += item.Count * product.Price;
             }
+            byte[] totalPriceBytes = BitConverter.GetBytes(decimal.ToDouble(totalPrice)); // Decimal veriyi double'a dönüştürüp byte dizisi olarak sakla
+            HttpContext.Session.Set("TotalPrice", totalPriceBytes);
 
             return View(products);
         }
