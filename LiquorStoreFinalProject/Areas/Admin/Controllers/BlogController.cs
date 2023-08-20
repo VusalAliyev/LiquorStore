@@ -54,7 +54,7 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateBlog(UpdateBlogVM request)
         {
             await _blogService.UpdateAsync(request);
-            return View(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet]

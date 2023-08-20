@@ -50,7 +50,7 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateDiscount(UpdateDiscountVM request)
         {
             await _discountService.UpdateAsync(request);
-            return View(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet]

@@ -60,7 +60,7 @@ namespace LiquorStoreFinalProject.Services
 
         public Blog GetBlogById(int id)
         {
-            var selectedBlog=_context.Blogs.FirstOrDefault(b=>b.Id == id);
+            var selectedBlog = _context.Blogs.FirstOrDefault(b => b.Id == id);
             return selectedBlog;
         }
 
@@ -76,8 +76,8 @@ namespace LiquorStoreFinalProject.Services
 
             var blogs = await _context.Blogs.Select(p => new GetAllBlogVM
             {
-                Id=p.Id,
-                CreateDate=p.CreatedDate,
+                Id = p.Id,
+                CreateDate = p.CreatedDate,
                 Description = p.Description,
                 ImageURL = p.ImageURL,
                 Title = p.Title

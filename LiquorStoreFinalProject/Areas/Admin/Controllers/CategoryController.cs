@@ -53,7 +53,7 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateCategory(UpdateCategoryVM request)
         {
             await _categoryService.UpdateAsync(request);
-            return View(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet]

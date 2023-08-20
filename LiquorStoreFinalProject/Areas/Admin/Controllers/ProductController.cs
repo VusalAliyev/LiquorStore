@@ -63,7 +63,7 @@ namespace LiquorStoreFinalProject.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateProduct(UpdateProductVM request)
         {
             await _productService.UpdateAsync(request);
-            return View(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet]

@@ -56,10 +56,10 @@ namespace LiquorStoreFinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> FilterProductsByCategory(int categoryId,int page=1)
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories =  _context.Categories;
             ViewBag.Categories = categories;
-
-           var filteredProducts= await _productService.GetProductsByCategory(page, categoryId);
+            ViewBag.Recent3Blogs = _context.Blogs.Take(3).OrderByDescending(b => b.CreatedDate).ToList();
+            var filteredProducts= await _productService.GetProductsByCategory(page, categoryId);
 
             return View("GetAllProducts",filteredProducts);
         }
