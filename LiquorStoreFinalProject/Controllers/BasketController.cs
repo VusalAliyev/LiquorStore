@@ -105,5 +105,33 @@ namespace LiquorStoreFinalProject.Controllers
             return View(products);
         }
 
+        public IActionResult RemoveFromBasket(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            string cookies = Request.Cookies["basket"];
+
+            if (cookies != null)
+            {
+                List<BasketVM> basketProducts = JsonConvert.DeserializeObject<List<BasketVM>>(cookies);
+
+                BasketVM productToRemove = basketProducts.FirstOrDefault(p => p.Id == id);
+
+                if (productToRemove != null)
+                {
+                    basketProducts.Remove(productToRemove);
+
+                    // Güncellenmiş ürün listesini tekrar cookie'e kaydet
+                    string updatedCookies = JsonConvert.SerializeObject(basketProducts);
+                    Response.Cookies.Append("basket", updatedCookies, new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
