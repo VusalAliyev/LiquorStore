@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using LiquorStoreFinalProject.ViewModels;
+@model PaymentVM
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Liquor Store - Free Bootstrap 4 Template by Colorlib</title>
@@ -33,7 +35,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10 ftco-animate">
-                    <form action="#" class="billing-form">
+                    <form method="post" asp-controller="Payment" asp-action="Index" class="billing-form">
                         <h3 class="mb-4 billing-heading">Billing Details</h3>
                         <div class="row align-items-end">
 
@@ -41,6 +43,7 @@
                                 <div class="form-group">
                                     <label for="Address">Address</label>
                                     <input type="text" class="form-control" placeholder="Address">
+                                    <span style="color: red;" asp-validation-for="Address"></span>
                                 </div>
                             </div>
 
@@ -48,6 +51,7 @@
                                 <div class="form-group">
                                     <label for="postcodezip">Postcode / ZIP *</label>
                                     <input type="text" class="form-control" placeholder="">
+                                    <span style="color: red;" asp-validation-for="PostCode"></span>
                                 </div>
                             </div>
 
@@ -55,12 +59,14 @@
                                 <div class="form-group">
                                     <label for="CardName">Card Name</label>
                                     <input type="number" class="form-control" placeholder="">
+                                    <span style="color: red;" asp-validation-for="CardName"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="CardNumber">Card Number</label>
                                     <input type="number" class="form-control" placeholder="">
+                                    <span style="color: red;" asp-validation-for="CardNumber"></span>
                                 </div>
                             </div>
                             <div class="w-100"></div>
@@ -69,19 +75,20 @@
                                 <div class="form-group">
                                     <label for="Expiration">Expiration</label>
                                     <input type="number" class="form-control" placeholder="">
+                                    <span style="color: red;" asp-validation-for="Expiration"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="CVV">CVV</label>
                                     <input type="number" class="form-control" placeholder="">
+                                    <span style="color: red;" asp-validation-for="CVV"></span>
                                 </div>
                             </div>
                             <div class="w-100"></div>
 
                             <div class="w-100"></div>
                         </div>
-                    </form>
                     <div class="row mt-5 pt-3 d-flex">
 
                         <div class="col-md-6 d-flex">
@@ -89,7 +96,7 @@
                                 <h3 class="billing-heading mb-4">Cart Total</h3>
                                 <p class="d-flex">
                                     <span>Subtotal</span>
-                                    <span>$20.60</span>
+                                        <span>$@ViewBag.TotalPrice</span>
                                 </p>
                                 <p class="d-flex">
                                     <span>Delivery</span>
@@ -97,12 +104,12 @@
                                 </p>
                                 <p class="d-flex">
                                     <span>Discount</span>
-                                    <span>$3.00</span>
+                                    <span>$@ViewBag.TotalDiscount</span>
                                 </p>
                                 <hr>
                                 <p class="d-flex total-price">
                                     <span>Total</span>
-                                    <span>$ @ViewBag.TotalPrice</span>
+                                    <span>$ @(ViewBag.TotalPrice-ViewBag.TotalDiscount)</span>
                                 </p>
                             </div>
                         </div>
@@ -137,10 +144,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p><a href="#" class="btn btn-primary py-3 px-4">Place an order</a></p>
+                                <p><button href="/Payment/PaymentSuccess" type="submit" class="btn btn-primary py-3 px-4">Place an order</butto></p>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

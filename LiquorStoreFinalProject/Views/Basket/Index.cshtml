@@ -47,6 +47,7 @@
                                     <th>&nbsp;</th>
                                     <th>Product</th>
                                     <th>Price</th>
+                                    <th>Discount</th>
                                     <th>Quantity</th>
                                     <th>total</th>
                                     <th>&nbsp;</th>
@@ -73,11 +74,12 @@
                                         </td>
                                         <td>
                                             <div class="email">
-                                                <span>@item.Name</span>
+                                                <span>@item.Name</span> 
                                                 <span>@item.Description</span>
                                             </div>
                                         </td>
                                         <td>@item.Price</td>
+                                        <td>@item.DiscountName</td>
                                         <td class="quantity">
                                             <div class="input-group">
                                                 <input type="text" name="quantity" class="quantity form-control input-number" value="@item.Count" min="1" max="100">
@@ -101,7 +103,7 @@
                             <h3>Cart Totals</h3>
                             <p class="d-flex">
                                 <span>Subtotal</span>
-                                <span>$20.60</span>
+                                <span>$@totalPrice</span>
                             </p>
                             <p class="d-flex">
                                 <span>Delivery</span>
@@ -109,12 +111,12 @@
                             </p>
                             <p class="d-flex">
                                 <span>Discount</span>
-                                <span>$3.00</span>
+                                <span>$@ViewBag.TotalDiscount</span>
                             </p>
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Total</span>
-                                <span>$@totalPrice</span>
+                                <span>$ @(totalPrice-ViewBag.TotalDiscount)</span>
                             </p>
                         </div>
                         <p class="text-center"><a href="/Payment/Index" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>

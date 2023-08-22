@@ -8,18 +8,29 @@ namespace LiquorStoreFinalProject.Controllers
     {
         public IActionResult Index()
         {
+
             if (HttpContext.Session.TryGetValue("TotalPrice", out byte[] totalPriceBytes))
             {
-                double totalPriceDouble = BitConverter.ToDouble(totalPriceBytes, 0); // Byte dizisini double'a dönüştür
-                decimal totalPrice = Convert.ToDecimal(totalPriceDouble); // Double'ı decimal'a çevir
+                double totalPriceDouble = BitConverter.ToDouble(totalPriceBytes, 0); 
+                decimal totalPrice = Convert.ToDecimal(totalPriceDouble); 
                 ViewBag.TotalPrice = totalPrice;
+            }
+            if (HttpContext.Session.TryGetValue("TotalDiscount", out byte[] totalDiscountsBytes))
+            {
+                double totalDiscountDouble = BitConverter.ToDouble(totalDiscountsBytes, 0);
+                decimal totalDiscount = Convert.ToDecimal(totalDiscountDouble);
+                ViewBag.TotalDiscount = totalDiscount;
             }
             return View();
         }
         [HttpPost]
         public IActionResult Index(PaymentVM paymentVM)
         {
-            return RedirectToAction(nameof(PaymentSuccess));
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            return RedirectToAction("PaymentSuccess");
         }
         [HttpGet]
         public IActionResult PaymentSuccess()

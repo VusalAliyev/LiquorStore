@@ -30,7 +30,7 @@ namespace LiquorStoreFinalProject.Controllers
             }
             else
             {
-                basketProducts = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);
+                basketProducts = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);  
             }
 
 
@@ -45,7 +45,8 @@ namespace LiquorStoreFinalProject.Controllers
                 BasketVM newBasketProduct = new BasketVM
                 {
                     Id = product.Id,
-                    Count = 1
+                    Count = 1,
+                    DiscountId= product.DiscountId,
                 };
                 basketProducts.Add(newBasketProduct);
             }
@@ -64,29 +65,42 @@ namespace LiquorStoreFinalProject.Controllers
             string cookies = Request.Cookies["basket"];
 
             List<BasketVM> products;
-            
+
             if (cookies != null)
             {
                 products = JsonConvert.DeserializeObject<List<BasketVM>>(cookies);
             }
             else
             {
-                products=new List<BasketVM>();
+                products = new List<BasketVM>();
             }
 
             decimal totalPrice = 0;
+            decimal totalDiscount = 0;
             foreach (BasketVM item in products)
             {
+                var selectedDiscount = _context.Discounts.FirstOrDefault(d => d.Id == item.DiscountId);
                 Product product = await _context.Products.FindAsync(item.Id);
 
                 item.Description = product.Description;
                 item.Name = product.Name;
                 item.Price = product.Price;
+                item.DiscountName = selectedDiscount.Name;
+                var itemDiscount = item.Price - (item.Price / 100 * selectedDiscount.Percent);
 
+
+                totalDiscount += itemDiscount;
                 totalPrice += item.Count * product.Price;
+                
             }
             byte[] totalPriceBytes = BitConverter.GetBytes(decimal.ToDouble(totalPrice)); // Decimal veriyi double'a dönüştürüp byte dizisi olarak sakla
             HttpContext.Session.Set("TotalPrice", totalPriceBytes);
+
+            byte[] totalDiscountsBytes = BitConverter.GetBytes(decimal.ToDouble(totalDiscount)); // Decimal veriyi double'a dönüştürüp byte dizisi olarak sakla
+            HttpContext.Session.Set("TotalDiscount", totalDiscountsBytes);
+
+
+            ViewBag.TotalDiscount= totalDiscount;
 
             return View(products);
         }
