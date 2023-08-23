@@ -35,7 +35,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10 ftco-animate">
-                    <form method="post" asp-controller="Payment" asp-action="Index" class="billing-form">
+                    <form method="post" asp-controller="Payment" asp-action="PaymentSuccess" class="billing-form">
                         <h3 class="mb-4 billing-heading">Billing Details</h3>
                         <div class="row align-items-end">
 
@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p><button href="/Payment/PaymentSuccess" type="submit" class="btn btn-primary py-3 px-4">Place an order</butto></p>
+                                <p><button asp-controller="Payment" asp-action="PaymentSuccess" type="submit" class="btn btn-primary py-3 px-4">Place an order</button></p>
                             </div>
                         </div>
                     </div>
@@ -170,6 +170,8 @@
     <script src="~/assets/js/google-map.js"></script>
     <script src="../../../cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <script src="~/assets/js/main.js"></script>
+
+
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
     <script>

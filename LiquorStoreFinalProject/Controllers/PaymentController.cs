@@ -2,6 +2,7 @@
 using LiquorStoreFinalProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 
 namespace LiquorStoreFinalProject.Controllers
@@ -33,11 +34,15 @@ namespace LiquorStoreFinalProject.Controllers
             {
                 return View();
             }
-            return RedirectToAction("PaymentSuccess");
+            return RedirectToAction(nameof(PaymentSuccess));
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult PaymentSuccess()
         {
+            List<BasketVM> emptyBasket = new List<BasketVM>();
+            string emptyCookies = JsonConvert.SerializeObject(emptyBasket);
+            Response.Cookies.Append("basket", emptyCookies, new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+
             return View();
         }
     }
