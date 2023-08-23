@@ -3,11 +3,13 @@ using LiquorStoreFinalProject.Data;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services;
 using LiquorStoreFinalProject.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LiquorStoreFinalProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

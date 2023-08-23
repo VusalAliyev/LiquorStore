@@ -1,9 +1,12 @@
-﻿using LiquorStoreFinalProject.ViewModels;
+﻿using LiquorStoreFinalProject.Helpers;
+using LiquorStoreFinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace LiquorStoreFinalProject.Controllers
 {
+    [Authorize(Roles = "User,Admin") ]
     public class PaymentController : Controller
     {
         public IActionResult Index()

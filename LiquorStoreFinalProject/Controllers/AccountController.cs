@@ -56,7 +56,7 @@ namespace LiquorStoreFinalProject.Controllers
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            await _userManager.AddToRoleAsync(user, Roles.User.ToString());
 
             if (!result.Succeeded)
             {

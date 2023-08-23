@@ -1,14 +1,17 @@
 ﻿using LiquorStoreFinalProject.Data;
+using LiquorStoreFinalProject.Helpers;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services;
 using LiquorStoreFinalProject.Services.Interfaces;
 using LiquorStoreFinalProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Cms.Ecc;
 
 namespace LiquorStoreFinalProject.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class BasketController : Controller
     {
         private readonly AppDbContext _context;
@@ -133,5 +136,13 @@ namespace LiquorStoreFinalProject.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult ClearBasket()
+        {
+            List<BasketVM> emptyBasket = new List<BasketVM>();
+            string emptyCookies = JsonConvert.SerializeObject(emptyBasket);
+            Response.Cookies.Append("basket", emptyCookies, new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+
+            return RedirectToAction("Index");
+        }
     }
 }

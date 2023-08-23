@@ -1,13 +1,17 @@
 ﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Blog;
+using LiquorStoreFinalProject.Helpers;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services;
 using LiquorStoreFinalProject.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LiquorStoreFinalProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class BlogController : Controller
     {
         private readonly IBlogService _blogService;

@@ -1,12 +1,16 @@
 ﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
 using LiquorStoreFinalProject.Data;
+using LiquorStoreFinalProject.Helpers;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LiquorStoreFinalProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
