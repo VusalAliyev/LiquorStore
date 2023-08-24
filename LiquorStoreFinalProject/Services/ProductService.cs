@@ -78,7 +78,7 @@ namespace LiquorStoreFinalProject.Services
         public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page)
         {
 
-            var pageResults = 3f;
+            var pageResults = 6f;
             var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
 
             var products = await _context.Products.Select(p => new GetAllProductVM
@@ -105,8 +105,8 @@ namespace LiquorStoreFinalProject.Services
 
         public async Task<GetPaginatedProductVM> GetProductsByCategory(int page, int categoryId)
         {
-            var pageResults = 3f;
-            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
+            var pageResults = 6f;
+            var pageCount = Math.Ceiling(_context.Products.Where(x=>x.CategoryId==categoryId).Count() / pageResults);
 
             var filteredProducts = await _context.Products
                 .Where(p => p.CategoryId == categoryId)

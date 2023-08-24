@@ -36,7 +36,7 @@ namespace LiquorStoreFinalProject.Controllers
             }
             return RedirectToAction(nameof(PaymentSuccess));
         }
-        [HttpPost]
+        [HttpGet]
         public IActionResult PaymentSuccess()
         {
             List<BasketVM> emptyBasket = new List<BasketVM>();

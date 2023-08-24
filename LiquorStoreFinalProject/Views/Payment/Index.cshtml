@@ -35,14 +35,14 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10 ftco-animate">
-                    <form method="post" asp-controller="Payment" asp-action="PaymentSuccess" class="billing-form">
+                    <form method="post" asp-controller="Payment" asp-action="Index" class="billing-form">
                         <h3 class="mb-4 billing-heading">Billing Details</h3>
                         <div class="row align-items-end">
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Address">Address</label>
-                                    <input type="text" class="form-control" placeholder="Address">
+                                    <input name="Address" type="text" class="form-control" placeholder="Address">
                                     <span style="color: red;" asp-validation-for="Address"></span>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="postcodezip">Postcode / ZIP *</label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input name="PostCode" type="text" class="form-control" placeholder="">
                                     <span style="color: red;" asp-validation-for="PostCode"></span>
                                 </div>
                             </div>
@@ -58,14 +58,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="CardName">Card Name</label>
-                                    <input type="number" class="form-control" placeholder="">
+                                    <input name="CardName" type="number" class="form-control" placeholder="">
                                     <span style="color: red;" asp-validation-for="CardName"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="CardNumber">Card Number</label>
-                                    <input type="number" class="form-control" placeholder="">
+                                    <input name="CardNumber" type="number" class="form-control" placeholder="">
                                     <span style="color: red;" asp-validation-for="CardNumber"></span>
                                 </div>
                             </div>
@@ -74,14 +74,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Expiration">Expiration</label>
-                                    <input type="number" class="form-control" placeholder="">
+                                    <input name="Expiration" type="number" class="form-control" placeholder="">
                                     <span style="color: red;" asp-validation-for="Expiration"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="CVV">CVV</label>
-                                    <input type="number" class="form-control" placeholder="">
+                                    <input name="CVV" type="number" class="form-control" placeholder="">
                                     <span style="color: red;" asp-validation-for="CVV"></span>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p><button asp-controller="Payment" asp-action="PaymentSuccess" type="submit" class="btn btn-primary py-3 px-4">Place an order</button></p>
+                                <p><button  type="submit" class="btn btn-primary py-3 px-4">Place an order</button></p>
                             </div>
                         </div>
                     </div>
