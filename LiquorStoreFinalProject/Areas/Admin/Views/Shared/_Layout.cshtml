@@ -175,7 +175,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                 
+
                     <li class="nav-item" href="~/Admin/Category/Index">
                         <a class="nav-link" href="~/Admin/Category/Index">
                             <i class="mdi mdi-view-headline menu-icon"></i>
@@ -232,6 +232,32 @@
     @await RenderSectionAsync("AdminScripts", required: false)
     <script src="~/admin/js/dashboard.js"></script>
     <!-- End custom js for this page-->
+    <script>
+        // Bu kod, sayfanın URL'sini alır
+        var currentUrl = window.location.pathname;
+
+        // Navbar öğelerini seçer
+        var navItems = document.querySelectorAll(".nav-item");
+
+        // Navbar öğelerini döngüyle kontrol eder
+        navItems.forEach(function (navItem) {
+            // Öğenin bağlantısının URL'sini alır
+            var linkUrl = navItem.querySelector(".nav-link").getAttribute("href");
+
+            // Eğer sayfa URL'si menü öğesinin URL'siyle eşleşiyorsa
+            if (currentUrl === linkUrl) {
+                // Önce tüm öğelerden "active" sınıfını kaldırır
+                navItems.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                // Ardından seçili öğeye "active" sınıfını ekler
+                navItem.classList.add("active");
+            }
+        });
+    </script>
+
 </body>
 
 </html>
+

@@ -1,4 +1,6 @@
-﻿
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="path/to/your/main.js"></script> 
 
 <div class="wrap">
     <div class="container">
@@ -58,7 +60,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="navigatinCustom nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
-                <li class="navigatinCustom nav-item active"><a asp-controller="About" asp-action="Index" class="nav-link">About</a></li>
+                <li class="navigatinCustom nav-item"><a asp-controller="About" asp-action="Index" class="nav-link">About</a></li>
                 <li class="navigatinCustom nav-item"><a asp-controller="Products" asp-action="GetAllProducts" class="nav-link">Products</a></li>
                 <li class="navigatinCustom nav-item	"><a asp-controller="Blogs" asp-action="Index" class="nav-link">Blog</a></li>
                 <li class="navigatinCustom nav-item"><a asp-controller="Contact" asp-action="Index" class="nav-link">Contact</a></li>
@@ -66,6 +68,7 @@
         </div>
     </div>
 </nav>
+
 
 <script src="~/assets/js/jquery.min.js"></script>
 <script src="~/assets/js/jquery-migrate-3.0.1.min.js"></script>
@@ -83,7 +86,25 @@
 <script src="../../../cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="~/assets/js/main.js"></script>
 <script>
+    var currentUrl = window.location.pathname;
 
+    var navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach(function (navItem) {
+        var linkUrl = navItem.querySelector(".nav-link").getAttribute("href");
+
+        if (currentUrl === linkUrl) {
+            navItems.forEach(function (item) {
+                item.classList.remove("active");
+            });
+
+            navItem.classList.add("active");
+        }
+    });
+</script>
+
+<script>
+    
 
     $(document).ready(function () {
 
