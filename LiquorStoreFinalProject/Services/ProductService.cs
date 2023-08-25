@@ -77,24 +77,33 @@ namespace LiquorStoreFinalProject.Services
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
             return product;
         }
-        public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page)
+        public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page, string searchTerm = null)
         {
 
             var pageResults = 6f;
-            var pageCount = Math.Ceiling(_context.Products.Count() / pageResults);
 
-            var products = await _context.Products.Select(p => new GetAllProductVM
+            IQueryable<Product> productsQuery = _context.Products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                Id = p.Id,
-                ImageURL = p.ImageURL,
-                CategoryName = p.Category.Name,
-                DiscountName = p.Discount.Name,
-                Name = p.Name,
-                Price = p.Price,
+                productsQuery = productsQuery.Where(p => p.Name.Contains(searchTerm));
+            }
 
-            }).Skip((page - 1) * (int)pageResults)
-               .Take((int)pageResults)
-               .ToListAsync();
+            var pageCount = Math.Ceiling(productsQuery.Count() / pageResults);
+
+            var products = await productsQuery
+                .Select(p => new GetAllProductVM
+                {
+                    Id = p.Id,
+                    ImageURL = p.ImageURL,
+                    CategoryName = p.Category.Name,
+                    DiscountName = p.Discount.Name,
+                    Name = p.Name,
+                    Price = p.Price,
+                })
+                .Skip((page - 1) * (int)pageResults)
+                .Take((int)pageResults)
+                .ToListAsync();
 
             return new GetPaginatedProductVM
             {
@@ -155,7 +164,7 @@ namespace LiquorStoreFinalProject.Services
                 {
                     updateProductVM.Image.CopyTo(fs);
                 }
-                updatedProduct.ImageURL = returnPath;
+                updatedProduct.ImageURL = returnPath;   
             }
 
 

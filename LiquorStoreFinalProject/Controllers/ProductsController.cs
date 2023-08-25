@@ -22,13 +22,13 @@ namespace LiquorStoreFinalProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts(int page=1)
+        public async Task<IActionResult> GetAllProducts(int page=1, string searchTerm = null)
         {
             var categories = await _context.Categories.ToListAsync();
             ViewBag.Categories = categories;
             ViewBag.Recent3Blogs = _context.Blogs.Take(3).OrderByDescending(b => b.CreatedDate).ToList();
 
-            var data = await _productService.GetPaginatedProductsAsync(page);
+            var data = await _productService.GetPaginatedProductsAsync(page,searchTerm);
             return View(data);
         }
 
