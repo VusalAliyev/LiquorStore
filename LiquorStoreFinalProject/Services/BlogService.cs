@@ -101,33 +101,37 @@ namespace LiquorStoreFinalProject.Services
             {
                 throw new Exception("Blog not found");
             }
-
-            if (System.IO.File.Exists(updatedBlog.ImageURL))
+            if (updateBlogVM.ImageURL!=null)
             {
-                System.IO.File.Delete(updatedBlog.ImageURL);
-            }
+                if (System.IO.File.Exists(updatedBlog.ImageURL))
+                {
+                    System.IO.File.Delete(updatedBlog.ImageURL);
+                }
+                var FileUniqueName = updateBlogVM.Image.FileName;
 
-            var FileUniqueName = updateBlogVM.Image.FileName;
+                var folderPath = Path.Combine(_env.WebRootPath, "photos");
+                var FullPath = Path.Combine(folderPath, FileUniqueName);
+                string rootFolder = @"wwwroot\";
+                string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
 
-            var folderPath = Path.Combine(_env.WebRootPath, "photos");
-            var FullPath = Path.Combine(folderPath, FileUniqueName);
-            string rootFolder = @"wwwroot\";
-            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
-            if (!Directory.Exists(folderPath))
-            {
                 Directory.CreateDirectory(folderPath);
-            }
 
-            Directory.CreateDirectory(folderPath);
-
-            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
-            {
-                updateBlogVM.Image.CopyTo(fs);
+                using (FileStream fs = new FileStream(FullPath, FileMode.Create))
+                {
+                    updateBlogVM.Image.CopyTo(fs);
+                }
+                updatedBlog.ImageURL = returnPath;
             }
+            
+           
 
             updatedBlog.Title = updateBlogVM.Title;
             updatedBlog.Description = updateBlogVM.Description;
-            updatedBlog.ImageURL = returnPath;
+           
 
             await _context.SaveChangesAsync();
 

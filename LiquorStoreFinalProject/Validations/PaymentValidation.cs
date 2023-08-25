@@ -7,7 +7,7 @@ namespace LiquorStoreFinalProject.Validations
     {
         public PaymentValidation()
         {
-            RuleFor(p => p.Address).NotEmpty().WithMessage("Fullname  is required.");
+            RuleFor(p => p.Address).NotEmpty().WithMessage("reyiz  is required.");
             RuleFor(p => p.CVV ).NotEmpty().WithMessage("CVV is required.");
             RuleFor(p => p.PostCode).NotEmpty().WithMessage("Post Code  is required.");
             RuleFor(p => p.CardName).NotEmpty().WithMessage("Card Name  is required.");

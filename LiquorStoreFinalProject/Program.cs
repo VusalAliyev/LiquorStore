@@ -21,10 +21,10 @@ builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<A
 builder.Services.Configure<IdentityOptions>(opt =>
 {
     opt.Password.RequiredLength = 6;
-    opt.Password.RequireDigit = true;
-    opt.Password.RequireLowercase = true;
-    opt.Password.RequireUppercase = true;
-    opt.Password.RequireNonAlphanumeric = true;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
 
     opt.User.RequireUniqueEmail = true;
     opt.SignIn.RequireConfirmedEmail = true;

@@ -90,7 +90,7 @@ namespace LiquorStoreFinalProject.Controllers
                 item.Price = product.Price;
                 item.DiscountName = selectedDiscount.Name;
                 item.ImageURL=product.ImageURL;
-                var itemDiscount = item.Price - (item.Price / 100 * selectedDiscount.Percent);
+                var itemDiscount = (item.Price * selectedDiscount.Percent) / 100 ;
 
 
                 totalDiscount += itemDiscount;

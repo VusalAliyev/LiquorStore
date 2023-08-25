@@ -29,7 +29,7 @@ namespace LiquorStoreFinalProject.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost]  
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(RegisterVM request)
         {
@@ -45,18 +45,8 @@ namespace LiquorStoreFinalProject.Controllers
                 Email = request.Email,
                 EmailConfirmed = true
             };
-            //Create Roles
-            //foreach (var role in Enum.GetValues(typeof(Roles)))
-            //{
-            //    if (!await _roleManager.RoleExistsAsync(role.ToString()))
-            //    {
-            //        await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
-            //    }
-            //}
 
             var result = await _userManager.CreateAsync(user, request.Password);
-
-            await _userManager.AddToRoleAsync(user, Roles.User.ToString());
 
             if (!result.Succeeded)
             {
@@ -66,6 +56,8 @@ namespace LiquorStoreFinalProject.Controllers
                 }
                 return View(request);
             }
+                await _userManager.AddToRoleAsync(user, Roles.User.ToString());
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -95,20 +87,22 @@ namespace LiquorStoreFinalProject.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Email or password wrong");
-                return View(request);
+                string loginErr = "Email(Username) or username not found";
+                ViewBag.LoginError = loginErr;
+                return View();
             }
 
             PasswordVerificationResult comparePassword = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
 
             if (comparePassword.ToString() == "Failed")
             {
-                ModelState.AddModelError(string.Empty, "Email or password wrong");
+                string loginErr = "Email(Username) or password not found";
+                ViewBag.LoginError = loginErr;
                 return View(request);
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
-
+            
             if (result.IsNotAllowed)
             {
                 ModelState.AddModelError(string.Empty, "Please confirm your account");

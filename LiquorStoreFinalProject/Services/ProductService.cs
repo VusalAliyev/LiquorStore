@@ -1,4 +1,5 @@
-﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
+﻿using LiquorStoreFinalProject.Areas.Admin.ViewModels.Category;
+using LiquorStoreFinalProject.Areas.Admin.ViewModels.Product;
 using LiquorStoreFinalProject.Data;
 using LiquorStoreFinalProject.Models;
 using LiquorStoreFinalProject.Services.Interfaces;
@@ -27,6 +28,7 @@ namespace LiquorStoreFinalProject.Services
 
         public async Task CreateAsync(CreateProductVM createProductVM)
         {
+
             var FileUniqueName = createProductVM.Image.FileName;
 
             var folderPath = Path.Combine(_env.WebRootPath, "photos");
@@ -51,7 +53,7 @@ namespace LiquorStoreFinalProject.Services
             var product = new Product
             {
                 Name = createProductVM.Name,
-                Discount=selectedDiscount,
+                Discount = selectedDiscount,
                 CategoryId = selectedCategory.Id,
                 Description = createProductVM.Description,
                 Price = createProductVM.Price,
@@ -70,9 +72,9 @@ namespace LiquorStoreFinalProject.Services
 
             _context.SaveChanges();
         }
-        public  Product GetProductById(int id)
+        public Product GetProductById(int id)
         {
-            var product = _context.Products.FirstOrDefault(p=>p.Id==id);
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
             return product;
         }
         public async Task<GetPaginatedProductVM> GetPaginatedProductsAsync(int page)
@@ -86,10 +88,10 @@ namespace LiquorStoreFinalProject.Services
                 Id = p.Id,
                 ImageURL = p.ImageURL,
                 CategoryName = p.Category.Name,
-                DiscountName=p.Discount.Name,
+                DiscountName = p.Discount.Name,
                 Name = p.Name,
                 Price = p.Price,
-                
+
             }).Skip((page - 1) * (int)pageResults)
                .Take((int)pageResults)
                .ToListAsync();
@@ -106,7 +108,7 @@ namespace LiquorStoreFinalProject.Services
         public async Task<GetPaginatedProductVM> GetProductsByCategory(int page, int categoryId)
         {
             var pageResults = 6f;
-            var pageCount = Math.Ceiling(_context.Products.Where(x=>x.CategoryId==categoryId).Count() / pageResults);
+            var pageCount = Math.Ceiling(_context.Products.Where(x => x.CategoryId == categoryId).Count() / pageResults);
 
             var filteredProducts = await _context.Products
                 .Where(p => p.CategoryId == categoryId)
@@ -115,7 +117,7 @@ namespace LiquorStoreFinalProject.Services
                     Id = p.Id,
                     ImageURL = p.ImageURL,
                     CategoryName = p.Category.Name,
-                    DiscountName=p.Discount.Name,
+                    DiscountName = p.Discount.Name,
                     Name = p.Name,
                     Price = p.Price,
                 }).Skip((page - 1) * (int)pageResults)
@@ -134,34 +136,36 @@ namespace LiquorStoreFinalProject.Services
         {
             var updatedProduct = _context.Products.FirstOrDefault(p => p.Id == updateProductVM.Id);
 
-            var FileUniqueName = updateProductVM.Image.FileName;
-
-            var folderPath = Path.Combine(_env.WebRootPath, "photos");
-            var FullPath = Path.Combine(folderPath, FileUniqueName);
-            string rootFolder = @"wwwroot\";
-            string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
-            if (!Directory.Exists(folderPath))
+            if (updateProductVM.ImageURL != null)
             {
+                var FileUniqueName = updateProductVM.Image.FileName;
+
+                var folderPath = Path.Combine(_env.WebRootPath, "photos");
+                var FullPath = Path.Combine(folderPath, FileUniqueName);
+                string rootFolder = @"wwwroot\";
+                string returnPath = FullPath.Substring(FullPath.IndexOf(rootFolder, StringComparison.OrdinalIgnoreCase) + rootFolder.Length).Replace("\\", "/");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
                 Directory.CreateDirectory(folderPath);
-            }
 
-            Directory.CreateDirectory(folderPath);
-
-            using (FileStream fs = new FileStream(FullPath, FileMode.Create))
-            {
-                updateProductVM.Image.CopyTo(fs);
+                using (FileStream fs = new FileStream(FullPath, FileMode.Create))
+                {
+                    updateProductVM.Image.CopyTo(fs);
+                }
+                updatedProduct.ImageURL = returnPath;
             }
 
 
             updatedProduct.Name = updateProductVM.Name ?? updatedProduct.Name;
-            updatedProduct.ImageURL = returnPath;
-            updatedProduct.CategoryId=/*updateProductVM.CategoryId*/3;
-            updatedProduct.DiscountId = 2;
-            updatedProduct.ImageURL = returnPath;
-            updatedProduct.Description=updateProductVM.Description;
-            updatedProduct.Price=updateProductVM.Price;
+            updatedProduct.CategoryId =updateProductVM.CategoryId;
+            updatedProduct.DiscountId = updateProductVM.DiscountId;
+            updatedProduct.Description = updateProductVM.Description;
+            updatedProduct.Price = updateProductVM.Price;
             _context.Products.Update(updatedProduct);
-             _context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }
